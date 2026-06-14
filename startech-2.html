@@ -1,0 +1,3006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StarTech — Gaming PCs, Laptops & Parts</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --panel: #131313;
+    --panel2: #181818;
+    --border: #222;
+    --blue: #4f8ef7;
+    --blue-dim: #3a75de;
+    --blue-glow: rgba(79,142,247,0.12);
+    --white: #f2f2f2;
+    --muted: #777;
+    --muted2: #444;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    gap: 8px;
+  }
+
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    color: var(--white);
+    flex-shrink: 0;
+    margin-right: 16px;
+  }
+
+  .nav-logo span { color: var(--blue); }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2px;
+    flex: 1;
+    height: 100%;
+    align-items: center;
+  }
+
+  /* dropdown wrapper */
+  .nav-item {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.18s, background 0.18s;
+    white-space: nowrap;
+    user-select: none;
+    background: none;
+    border: none;
+  }
+
+  .nav-trigger:hover { color: var(--white); background: var(--panel2); }
+
+  .nav-trigger svg {
+    width: 12px; height: 12px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .flyout-row:hover > .flyout-trigger,
+  .flyout-row.open > .flyout-trigger { background: var(--panel2); color: var(--blue); }
+
+  .flyout-row:hover > .flyout-trigger .ft-arrow,
+  .flyout-row.open > .flyout-trigger .ft-arrow { transform: rotate(-90deg); color: var(--blue); }
+
+  .flyout-row:hover > .sub-menu,
+  .flyout-row.open > .sub-menu { display: block; }
+
+  /* ── DROPDOWN PANEL ── */
+  .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+    z-index: 300;
+  }
+
+  .nav-item:hover > .dropdown,
+  .nav-item.open > .dropdown { display: block; }
+
+  .nav-item:hover .nav-trigger,
+  .nav-item.open .nav-trigger { color: var(--white); background: var(--panel2); }
+
+  .nav-item:hover .nav-trigger svg,
+  .nav-item.open .nav-trigger svg { transform: rotate(180deg); }
+
+  .dropdown-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    padding: 6px 10px 4px;
+  }
+
+  .dropdown-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 6px 0;
+  }
+
+  /* ── FLYOUT ROW (has sub-menu) ── */
+  .flyout-row {
+    position: relative;
+    border-radius: 6px;
+  }
+
+  .flyout-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 9px 10px;
+    border-radius: 6px;
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+    width: 100%;
+  }
+
+  .flyout-trigger .ft-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .flyout-trigger .ft-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+
+  .flyout-trigger .ft-arrow {
+    width: 11px; height: 11px;
+    flex-shrink: 0;
+    color: var(--muted);
+    transition: transform 0.15s;
+  }
+
+  /* ── SUB-MENU (appears to the right) ── */
+  .sub-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: calc(100% + 6px);
+    min-width: 210px;
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+    z-index: 400;
+  }
+
+  .flyout-row:hover > .sub-menu,
+  .flyout-row.open > .sub-menu { display: block; }
+
+  /* bridge so mouse can travel between flyout row and sub-menu */
+  .sub-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -6px;
+    width: 6px;
+    height: 100%;
+  }
+
+  .sub-menu-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    padding: 4px 10px 6px;
+  }
+
+  .sub-menu a {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 9px 10px;
+    border-radius: 6px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .sub-menu a:hover { background: var(--panel2); color: var(--blue); }
+  .sub-menu a .sm-name { font-weight: 600; font-size: 13px; line-height: 1.2; }
+  .sub-menu a .sm-desc { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.3; }
+  .sub-menu a:hover .sm-desc { color: var(--blue); opacity: 0.7; }
+
+  /* plain dropdown links */
+  .dd-plain {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 6px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+  }
+  .dd-plain:hover { background: var(--panel2); color: var(--blue); }
+  .dd-plain .dd-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+  .dd-plain .dd-text { display: flex; flex-direction: column; gap: 1px; }
+  .dd-plain .dd-name { font-weight: 600; font-size: 13px; }
+  .dd-plain .dd-desc { font-size: 11px; color: var(--muted); }
+
+  .nav-contact {
+    margin-left: auto;
+    background: var(--blue);
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    text-decoration: none;
+    transition: background 0.18s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .nav-contact:hover { background: var(--blue-dim); }
+
+  /* ── HERO ── */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(79,142,247,0.09) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue-glow);
+    border: 1px solid rgba(79,142,247,0.25);
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(52px, 9vw, 110px);
+    line-height: 0.93;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    max-width: 820px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em { font-style: normal; color: var(--blue); }
+
+  .hero-sub {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 460px;
+    margin-bottom: 36px;
+    line-height: 1.75;
+  }
+
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 13px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.18s;
+  }
+
+  .btn-primary:hover { background: var(--blue-dim); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 13px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s;
+  }
+
+  .btn-ghost:hover { border-color: var(--muted2); background: var(--panel); }
+
+  /* ── BUNDLE BANNER ── */
+  .bundle-banner {
+    background: linear-gradient(90deg, #0d1f3c 0%, #0a0a0a 40%, #1a0d2e 100%);
+    border-bottom: 1px solid rgba(79,142,247,0.2);
+    padding: 14px 40px;
+  }
+
+  .bundle-banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .bundle-flame { font-size: 28px; flex-shrink: 0; animation: flicker 2s ease-in-out infinite alternate; }
+
+  @keyframes flicker {
+    from { transform: scale(1) rotate(-3deg); }
+    to   { transform: scale(1.15) rotate(3deg); }
+  }
+
+  .bundle-text {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .bundle-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    white-space: nowrap;
+  }
+
+  .bundle-sub {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .bundle-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue);
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.18s, transform 0.15s;
+    box-shadow: 0 0 20px rgba(79,142,247,0.35);
+  }
+
+  .bundle-cta:hover { background: var(--blue-dim); transform: translateY(-1px); box-shadow: 0 0 28px rgba(79,142,247,0.5); }
+  .bundle-cta strong { font-weight: 800; }
+
+  @media (max-width: 768px) {
+    .bundle-banner { padding: 12px 20px; }
+    .bundle-sub { display: none; }
+    .bundle-headline { font-size: 18px; }
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    background: var(--blue);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 9px 0;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    gap: 48px;
+    animation: tick 22s linear infinite;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── LANDSCAPE LAYOUT ── */
+  .site-wrapper {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+    padding-top: 64px;
+  }
+
+  /* LEFT SIDEBAR */
+  .sidebar {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    width: 220px;
+    height: calc(100vh - 64px);
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 24px 0;
+    z-index: 100;
+  }
+
+  .sidebar-section { margin-bottom: 8px; }
+
+  .sidebar-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    padding: 6px 20px;
+  }
+
+  .sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+  }
+
+  .sidebar a:hover {
+    color: var(--white);
+    background: var(--panel2);
+    border-left-color: var(--blue);
+  }
+
+  .sidebar a.active {
+    color: var(--blue);
+    background: var(--blue-glow);
+    border-left-color: var(--blue);
+  }
+
+  .sidebar-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 12px 20px;
+  }
+
+  /* MAIN CONTENT AREA */
+  .main-content {
+    margin-left: 220px;
+    min-width: 0;
+  }
+
+  /* LANDSCAPE SECTION LAYOUT - heading left, content right */
+  .page-section {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    padding: 56px 48px;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+
+  .section-head { margin-bottom: 0; position: sticky; top: 80px; }
+
+  /* HERO landscape */
+  .hero {
+    padding: 72px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-left { display: flex; flex-direction: column; }
+  .hero-right { display: flex; flex-direction: column; gap: 0; }
+
+  /* ── SECTIONS ── */
+  .page-section { padding: 72px 40px; border-bottom: 1px solid var(--border); }
+
+  .section-head { margin-bottom: 40px; }
+
+  .section-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(32px, 5vw, 54px);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 10px;
+    max-width: 500px;
+  }
+
+  /* ── PRODUCT GRID ── */
+  .prod-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .prod-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .prod-card:hover {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 1px rgba(79,142,247,0.15), 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .prod-card.featured-card {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    border-color: rgba(79,142,247,0.3);
+  }
+
+  .prod-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+
+  .badge-live { background: rgba(79,142,247,0.15); color: var(--blue); border: 1px solid rgba(79,142,247,0.3); }
+  .badge-soon { background: var(--panel2); color: var(--muted); border: 1px solid var(--border); }
+  .badge-hot { background: rgba(255,80,80,0.12); color: #ff6b6b; border: 1px solid rgba(255,80,80,0.25); }
+
+  .prod-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .prod-sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  /* SPEC TABLE */
+  .spec-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  .spec-table tr { border-bottom: 1px solid var(--border); }
+  .spec-table tr:last-child { border-bottom: none; }
+  .spec-table td { padding: 9px 0; font-size: 13px; }
+  .spec-table td:first-child {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    width: 110px;
+  }
+  .spec-table td:last-child { color: var(--white); font-weight: 500; }
+
+  /* PERF BARS */
+  .perf-wrap { margin-bottom: 24px; }
+  .perf-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .perf-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .perf-game { font-size: 13px; width: 110px; flex-shrink: 0; }
+  .perf-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .perf-fill { height: 100%; background: var(--blue); border-radius: 3px; }
+  .perf-fps { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; color: var(--blue); width: 80px; text-align: right; flex-shrink: 0; }
+
+  /* PRICE & BUY */
+  .price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
+  .price-main { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 44px; line-height: 1; }
+  .price-note { font-size: 12px; color: var(--muted); }
+
+  .buy-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 13px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.18s;
+    margin-bottom: 8px;
+  }
+
+  .buy-btn:hover { background: var(--blue-dim); }
+  .buy-note { font-size: 11px; color: var(--muted); text-align: center; }
+
+  /* COMING SOON CARD */
+  .coming-body { opacity: 0.45; flex: 1; }
+  .coming-pill {
+    margin-top: auto;
+    text-align: center;
+    padding: 10px;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* PARTS GRID */
+  .parts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .part-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    transition: border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .part-card:hover { border-color: var(--blue); }
+
+  .part-icon { font-size: 24px; margin-bottom: 10px; }
+
+  .part-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .part-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* WHY */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .why-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+  }
+
+  .why-icon { font-size: 26px; margin-bottom: 14px; }
+
+  .why-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .why-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* CONTACT */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 800px;
+  }
+
+  .contact-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+  }
+
+  .contact-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .contact-card p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .contact-link { color: var(--blue); text-decoration: none; font-weight: 600; font-size: 14px; }
+  .contact-link:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  footer {
+    padding: 28px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+  }
+
+  .footer-logo span { color: var(--blue); }
+  footer p { font-size: 12px; color: var(--muted); }
+
+  /* ── BUNDLE SECTION ── */
+  .bundle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .bundle-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bundle-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue), #a855f7);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .bundle-card:hover { border-color: var(--blue); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .bundle-card:hover::before { opacity: 1; }
+
+  .bundle-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+
+  .bundle-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .bundle-save-tag {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .bundle-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .bundle-items li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .bundle-items li::before {
+    content: '✓';
+    color: var(--blue);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .bundle-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .bundle-price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--white);
+  }
+
+  .bundle-was {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  /* BUILD YOUR OWN BUNDLE */
+  .byo-section {
+    background: var(--panel);
+    border: 1px solid rgba(79,142,247,0.3);
+    border-radius: 12px;
+    padding: 40px;
+  }
+
+  .byo-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .byo-sub { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+
+  .byo-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .byo-cat {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s;
+    user-select: none;
+  }
+
+  .byo-cat.selected { border-color: var(--blue); background: var(--blue-glow); }
+  .byo-cat:hover { border-color: var(--muted2); }
+
+  .byo-cat-icon { font-size: 20px; margin-bottom: 6px; }
+  .byo-cat-name { font-weight: 600; font-size: 13px; }
+  .byo-cat-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .byo-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .byo-selected-count { font-size: 14px; color: var(--muted); }
+  .byo-selected-count strong { color: var(--white); }
+
+  .byo-discount-badge {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 6px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 1024px) {
+    .site-wrapper { grid-template-columns: 1fr; padding-top: 64px; }
+    .sidebar { display: none; }
+    .main-content { margin-left: 0; }
+    .page-section { grid-template-columns: 1fr; gap: 24px; padding: 48px 24px; }
+    .section-head { position: static; }
+    .hero { grid-template-columns: 1fr; padding: 80px 24px 48px; }
+    .hero-right { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 16px; gap: 8px; }
+    .nav-links { gap: 0; }
+    .nav-trigger { padding: 6px 8px; font-size: 11px; }
+    .nav-trigger svg { display: none; }
+    .nav-contact { padding: 7px 12px; font-size: 12px; }
+    .dropdown { min-width: 180px; }
+    .prod-card.featured-card { grid-template-columns: 1fr; gap: 24px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    footer { padding: 24px 20px; }
+    .bundle-banner { padding: 12px 20px; }
+    .bundle-sub { display: none; }
+    .bundle-headline { font-size: 18px; }
+  }
+
+  /* ── PRODUCT MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.88); z-index: 1000;
+    overflow-y: auto; padding: 40px 20px;
+  }
+  .modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+  .modal-box {
+    background: #111; border: 1px solid var(--border);
+    border-radius: 14px; width: 100%; max-width: 900px;
+    overflow: hidden; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: rgba(0,0,0,0.6); border: 1px solid var(--border);
+    color: var(--white); width: 34px; height: 34px; border-radius: 50%;
+    font-size: 18px; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; z-index: 10; transition: background 0.15s;
+  }
+  .modal-close:hover { background: var(--border); }
+  .modal-hero-img { width: 100%; height: 300px; object-fit: cover; }
+  .modal-body { padding: 32px; }
+  .modal-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; }
+  .modal-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 44px; text-transform: uppercase; line-height: 1; margin-bottom: 8px; }
+  .modal-tagline { color: var(--muted); font-size: 14px; margin-bottom: 20px; line-height: 1.7; max-width: 700px; }
+  .modal-includes { background: var(--panel2); border-radius: 8px; padding: 12px 16px; margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .modal-include-chip { font-size: 12px; color: var(--white); }
+  .modal-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px; }
+  .modal-col-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .modal-spec-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .modal-spec-row:last-child { border-bottom: none; }
+  .modal-spec-row span:first-child { color: var(--muted); }
+  .modal-spec-row span:last-child { font-weight: 500; }
+  .modal-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .modal-price { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 52px; line-height: 1; }
+  .modal-price-note { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .modal-actions { display: flex; gap: 10px; }
+
+  /* ── CONFIGURATOR ── */
+  .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .platform-card { background: var(--panel2); border: 2px solid var(--border); border-radius: 10px; padding: 20px; cursor: pointer; transition: border-color 0.18s; text-align: center; }
+  .platform-card:hover { border-color: var(--muted2); }
+  .platform-card.selected { border-color: var(--blue); background: var(--blue-glow); }
+  .platform-card .p-icon { font-size: 30px; margin-bottom: 8px; }
+  .platform-card .p-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 19px; text-transform: uppercase; }
+  .platform-card .p-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .comp-step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .comp-step-num { background: var(--blue); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 15px; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .comp-step-lbl { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; text-transform: uppercase; }
+  .comp-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .comp-option { display: flex; align-items: center; gap: 12px; background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; cursor: pointer; transition: border-color 0.15s; }
+  .comp-option:hover { border-color: var(--muted2); }
+  .comp-option.sel { border-color: var(--blue); background: var(--blue-glow); }
+  .co-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; }
+  .co-dot.black { background: #222; border: 2px solid #555; }
+  .co-dot.white { background: #eee; border: 2px solid #aaa; }
+  .co-info { flex: 1; }
+  .co-name { font-weight: 600; font-size: 13px; }
+  .co-spec { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .co-price { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; color: var(--blue); flex-shrink: 0; }
+  .config-progress { display: flex; gap: 4px; margin-bottom: 20px; }
+  .config-progress-dot { flex: 1; height: 3px; background: var(--border); border-radius: 2px; transition: background 0.2s; }
+  .config-progress-dot.done { background: var(--blue); }
+  .config-summary-row { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .config-summary-row span:first-child { color: var(--muted); text-transform: capitalize; }
+  .config-total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; margin-top: 4px; }
+  .config-total-lbl { font-size: 14px; font-weight: 600; }
+  .config-total-price { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 36px; }
+  .config-nav { display: flex; gap: 10px; justify-content: space-between; margin-top: 20px; }
+  .config-step { display: none; }
+  .config-step.active { display: block; }
+  @media (max-width: 768px) {
+    .modal-cols { grid-template-columns: 1fr; }
+    .modal-hero-img { height: 180px; }
+    .modal-body { padding: 20px; }
+    .platform-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Star<span>Tech</span></a>
+  <ul class="nav-links">
+
+    <!-- PREBUILT PC -->
+    <li class="nav-item">
+      <button class="nav-trigger">
+        🖥️ Prebuilt PC
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="dropdown">
+        <div class="dropdown-label">Shop by Type</div>
+
+        <!-- Gamer -->
+        <div class="flyout-row">
+          <div class="flyout-trigger">
+            <span class="ft-left"><span class="ft-icon">🎮</span> Gamer</span>
+            <svg class="ft-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="sub-menu">
+            <div class="sub-menu-label">Gamer Series</div>
+            <a href="#prebuilt">
+              <span class="sm-name">Gamer Core</span><span class="sm-desc">Built to perform · £599</span>
+              
+            </a>
+            <a href="#prebuilt">
+              <span class="sm-name">Gamer Pro</span><span class="sm-desc">Level up your game · £849</span>
+            </a>
+            <a href="#prebuilt">
+              <span class="sm-name">Gamer Elite</span><span class="sm-desc">No limits, no lag · £1,099</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Workstation -->
+        <div class="flyout-row">
+          <div class="flyout-trigger">
+            <span class="ft-left"><span class="ft-icon">🖥️</span> Workstation</span>
+            <svg class="ft-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="sub-menu">
+            <div class="sub-menu-label">Workstation Series</div>
+            <a href="#prebuilt">
+              <span class="sm-name">Workstation Base</span><span class="sm-desc">Work smarter · £699</span>
+            </a>
+            <a href="#prebuilt">
+              <span class="sm-name">Workstation Plus</span><span class="sm-desc">Built for the grind · £949</span>
+            </a>
+            <a href="#prebuilt">
+              <span class="sm-name">Workstation Max</span><span class="sm-desc">Render. Create. Repeat. · £1,249</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hybrid -->
+        <div class="flyout-row">
+          <div class="flyout-trigger">
+            <span class="ft-left"><span class="ft-icon">⚡</span> Hybrid</span>
+            <svg class="ft-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="sub-menu">
+            <div class="sub-menu-label">Hybrid Series</div>
+            <a href="#prebuilt">
+              <span class="sm-name">Hybrid Starter</span><span class="sm-desc">Game & work, done · £649</span>
+            </a>
+            <a href="#prebuilt">
+              <span class="sm-name">Hybrid Pro</span><span class="sm-desc">Two worlds, one machine · £899</span>
+            </a>
+            <a href="#prebuilt">
+              <span class="sm-name">Hybrid Ultra</span><span class="sm-desc">Built to last · £1,149</span>
+            </a>
+          </div>
+        </div>
+
+        <hr class="dropdown-divider">
+        <a class="dd-plain" href="#prebuilt">
+          <span class="dd-icon">📦</span>
+          <span class="dd-text"><span class="dd-name">View all prebuilts</span></span>
+        </a>
+      </div>
+    </li>
+
+    <!-- CUSTOM PC -->
+    <li class="nav-item">
+      <button class="nav-trigger">
+        ⚙️ Custom PC
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="dropdown">
+        <div class="dropdown-label">Build by Type</div>
+
+        <!-- Gamer -->
+        <div class="flyout-row">
+          <div class="flyout-trigger">
+            <span class="ft-left"><span class="ft-icon">🎮</span> Gamer</span>
+            <svg class="ft-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="sub-menu">
+            <div class="sub-menu-label">Gamer Builds</div>
+            <a href="#custom">
+              <span class="sm-name">Gamer Budget</span><span class="sm-desc">Start playing today · From £350</span>
+            </a>
+            <a href="#custom">
+              <span class="sm-name">Gamer Mid</span><span class="sm-desc">Hit every frame · From £500</span>
+            </a>
+            <a href="#custom">
+              <span class="sm-name">Gamer High-End</span><span class="sm-desc">Max everything · From £750</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Workstation -->
+        <div class="flyout-row">
+          <div class="flyout-trigger">
+            <span class="ft-left"><span class="ft-icon">🖥️</span> Workstation</span>
+            <svg class="ft-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="sub-menu">
+            <div class="sub-menu-label">Workstation Builds</div>
+            <a href="#custom">
+              <span class="sm-name">Coder Build</span><span class="sm-desc">Ship faster · From £500</span>
+            </a>
+            <a href="#custom">
+              <span class="sm-name">Creator Build</span><span class="sm-desc">Make it happen · From £800</span>
+            </a>
+            <a href="#custom">
+              <span class="sm-name">Power Build</span><span class="sm-desc">Unstoppable · From £1,050</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hybrid -->
+        <div class="flyout-row">
+          <div class="flyout-trigger">
+            <span class="ft-left"><span class="ft-icon">⚡</span> Hybrid</span>
+            <svg class="ft-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="sub-menu">
+            <div class="sub-menu-label">Hybrid Builds</div>
+            <a href="#custom">
+              <span class="sm-name">Hybrid Entry</span><span class="sm-desc">Study hard, play harder · From £400</span>
+            </a>
+            <a href="#custom">
+              <span class="sm-name">Hybrid Balanced</span><span class="sm-desc">Best of both worlds · From £600</span>
+            </a>
+            <a href="#custom">
+              <span class="sm-name">Hybrid Beast</span><span class="sm-desc">Zero compromise · From £900</span>
+            </a>
+          </div>
+        </div>
+
+        <hr class="dropdown-divider">
+        <a class="dd-plain" href="#custom">
+          <span class="dd-icon">💬</span>
+          <span class="dd-text">
+            <span class="dd-name">How it works</span>
+            <span class="dd-desc">Message → Quote → Build → Ship</span>
+          </span>
+        </a>
+      </div>
+    </li>
+
+    <!-- GAMING LAPTOP -->
+    <li class="nav-item">
+      <button class="nav-trigger">
+        💻 Gaming Laptop
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="dropdown">
+        <div class="dropdown-label">Laptop Range</div>
+        <a class="dd-plain" href="#laptops">
+          <span class="dd-icon">💸</span>
+          <span class="dd-text">
+            <span class="dd-name">Budget Laptop</span>
+            
+          </span>
+        </a>
+        <a class="dd-plain" href="#laptops">
+          <span class="dd-icon">🎯</span>
+          <span class="dd-text">
+            <span class="dd-name">Mid-Range Laptop</span>
+            
+          </span>
+        </a>
+        <a class="dd-plain" href="#laptops">
+          <span class="dd-icon">🔥</span>
+          <span class="dd-text">
+            <span class="dd-name">High-End Laptop</span>
+            
+          </span>
+        </a>
+        <hr class="dropdown-divider">
+        <a class="dd-plain" href="#laptops">
+          <span class="dd-icon">📩</span>
+          <span class="dd-text">
+            <span class="dd-name">Want something specific?</span>
+            <span class="dd-desc">We source to order</span>
+          </span>
+        </a>
+      </div>
+    </li>
+
+    <!-- PC PARTS -->
+    <li class="nav-item">
+      <button class="nav-trigger">
+        🔩 PC Parts
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="dropdown" style="min-width:240px;">
+        <div class="dropdown-label">Shop by Category</div>
+        <a class="dd-plain" href="#parts">
+          <span class="dd-icon">🎮</span>
+          <span class="dd-text"><span class="dd-name">Graphics Cards</span></span>
+        </a>
+        <a class="dd-plain" href="#parts">
+          <span class="dd-icon">⚡</span>
+          <span class="dd-text"><span class="dd-name">CPUs</span></span>
+        </a>
+        <a class="dd-plain" href="#parts">
+          <span class="dd-icon">🧠</span>
+          <span class="dd-text"><span class="dd-name">RAM</span></span>
+        </a>
+        <a class="dd-plain" href="#parts">
+          <span class="dd-icon">💾</span>
+          <span class="dd-text"><span class="dd-name">Storage</span></span>
+        </a>
+        <a class="dd-plain" href="#parts">
+          <span class="dd-icon">🖥️</span>
+          <span class="dd-text"><span class="dd-name">Monitors</span></span>
+        </a>
+        <a class="dd-plain" href="#parts">
+          <span class="dd-icon">🔌</span>
+          <span class="dd-text"><span class="dd-name">Motherboards & PSUs</span></span>
+        </a>
+      </div>
+    </li>
+
+    <!-- BUNDLES -->
+    <li class="nav-item">
+      <button class="nav-trigger" style="color:#f59e0b;">
+        🎁 Bundles
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="dropdown" style="min-width:200px;">
+        <div class="dropdown-label">Bundle by Setup</div>
+
+        <!-- Gamer Bundle -->
+        <div class="flyout-row">
+          <div class="flyout-trigger">
+            <span class="ft-left"><span class="ft-icon">🎮</span> Gamer</span>
+            <svg class="ft-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="sub-menu">
+            <div class="sub-menu-label">Gamer Bundles</div>
+            <a href="#bundles">
+              <span class="sm-name">🎮 Gamer Starter Bundle</span><span class="sm-desc">Everything to get going · £659</span>
+            </a>
+            <a href="#bundles">
+              <span class="sm-name">🎮 Gamer Pro Bundle</span><span class="sm-desc">Full setup, full power · £1,049</span>
+            </a>
+            <a href="#bundles">
+              <span class="sm-name">🎮 Gamer Ultimate Bundle</span><span class="sm-desc">The complete rig · £1,329</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Workstation Bundle -->
+        <div class="flyout-row">
+          <div class="flyout-trigger">
+            <span class="ft-left"><span class="ft-icon">🖥️</span> Workstation</span>
+            <svg class="ft-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="sub-menu">
+            <div class="sub-menu-label">Workstation Bundles</div>
+            <a href="#bundles">
+              <span class="sm-name">🖥️ Work Essentials Bundle</span><span class="sm-desc">Hit the ground running · £764</span>
+            </a>
+            <a href="#bundles">
+              <span class="sm-name">🖥️ Work Pro Bundle</span><span class="sm-desc">Dual screens, zero limits · £1,119</span>
+            </a>
+            <a href="#bundles">
+              <span class="sm-name">🖥️ Work Ultimate Bundle</span><span class="sm-desc">Your full desk, sorted · £1,449</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hybrid Bundle -->
+        <div class="flyout-row">
+          <div class="flyout-trigger">
+            <span class="ft-left"><span class="ft-icon">⚡</span> Hybrid</span>
+            <svg class="ft-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="sub-menu">
+            <div class="sub-menu-label">Hybrid Bundles</div>
+            <a href="#bundles">
+              <span class="sm-name">⚡ Hybrid Starter Bundle</span><span class="sm-desc">Ready for anything · £704</span>
+            </a>
+            <a href="#bundles">
+              <span class="sm-name">⚡ Hybrid Pro Bundle</span><span class="sm-desc">Work, game, create · £1,064</span>
+            </a>
+            <a href="#bundles">
+              <span class="sm-name">⚡ Hybrid Beast Bundle</span><span class="sm-desc">The ultimate setup · £1,369</span>
+            </a>
+          </div>
+        </div>
+
+        <hr class="dropdown-divider">
+        <a class="dd-plain" href="#bundles">
+          <span class="dd-icon">🛒</span>
+          <span class="dd-text"><span class="dd-name">Build your own bundle</span><span class="dd-desc">Pick & mix to save</span></span>
+        </a>
+      </div>
+    </li>
+
+    <!-- PERIPHERALS -->
+    <li class="nav-item">
+      <button class="nav-trigger">
+        🖱️ Peripherals
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="dropdown" style="min-width:240px;">
+        <div class="dropdown-label">Accessories</div>
+        <a class="dd-plain" href="#peripherals">
+          <span class="dd-icon">⌨️</span>
+          <span class="dd-text"><span class="dd-name">Keyboards</span></span>
+        </a>
+        <a class="dd-plain" href="#peripherals">
+          <span class="dd-icon">🖱️</span>
+          <span class="dd-text"><span class="dd-name">Mice</span></span>
+        </a>
+        <hr class="dropdown-divider">
+        <div class="dropdown-label">Desk Mats</div>
+        <a class="dd-plain" href="#peripherals">
+          <span class="dd-icon">🟦</span>
+          <span class="dd-text"><span class="dd-name">Mouse Mats</span></span>
+        </a>
+        <a class="dd-plain" href="#peripherals">
+          <span class="dd-icon">⬛</span>
+          <span class="dd-text"><span class="dd-name">Keyboard Mats</span></span>
+        </a>
+        <hr class="dropdown-divider">
+        <div class="dropdown-label">Cables & Adapters</div>
+        <a class="dd-plain" href="#peripherals">
+          <span class="dd-icon">🔌</span>
+          <span class="dd-text"><span class="dd-name">Dongle Cables</span></span>
+        </a>
+        <a class="dd-plain" href="#peripherals">
+          <span class="dd-icon">📡</span>
+          <span class="dd-text"><span class="dd-name">Adapters & Hubs</span></span>
+        </a>
+      </div>
+    </li>
+
+  </ul>
+  <a href="#contact" class="nav-contact">Contact Us</a>
+</nav>
+
+<!-- SITE WRAPPER -->
+<div class="site-wrapper">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Shop</div>
+    <a href="#prebuilt">🖥️ Prebuilt PC</a>
+    <a href="#custom">⚙️ Custom PC</a>
+    <a href="#laptops">💻 Gaming Laptop</a>
+    <a href="#parts">🔩 PC Parts</a>
+    <a href="#peripherals">🖱️ Peripherals</a>
+  </div>
+  <hr class="sidebar-divider">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Deals</div>
+    <a href="#bundles">🎁 Bundles & Save</a>
+  </div>
+  <hr class="sidebar-divider">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Info</div>
+    <a href="#why">✅ Why StarTech</a>
+    <a href="#contact">📩 Contact Us</a>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">⭐ Built in Bournemouth · Ships UK-Wide</div>
+    <h1>Your next<br><em>gaming PC</em><br>starts here.</h1>
+    <p class="hero-sub">Hand-built and tested gaming PCs, laptops and parts. No bloatware, no shortcuts — just hardware that performs.</p>
+    <div class="hero-btns">
+      <a href="#prebuilt" class="btn-primary">🖥️ Shop Prebuilts</a>
+      <a href="#custom" class="btn-ghost">⚙️ Build Custom</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div style="background:var(--panel);border:1px solid rgba(79,142,247,0.2);border-radius:12px;padding:28px;width:100%;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">⚡ Featured Build</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;text-transform:uppercase;margin-bottom:4px;">The Starter</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:20px;">1080p · CoD, Fortnite, Minecraft</div>
+      <div style="display:flex;flex-direction:column;gap:0;margin-bottom:20px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">CPU</span><span>Ryzen 5 5600</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:8px 0;border-bottom:1px solid var(--border);"><span style="color:var(--muted);">RAM</span><span>16GB DDR4</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:8px 0;"><span style="color:var(--muted);">Storage</span><span>500GB NVMe</span></div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:14px;">
+        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:40px;">£599</span>
+        <span style="font-size:12px;color:var(--muted);">free delivery</span>
+      </div>
+      <a href="#prebuilt" class="btn-primary" style="width:100%;justify-content:center;display:flex;">Order now →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;width:100%;margin-top:12px;">
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;color:var(--blue);">90+</div>
+        <div style="font-size:11px;color:var(--muted);">FPS on CoD</div>
+      </div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;color:var(--blue);">5 Day</div>
+        <div style="font-size:11px;color:var(--muted);">Build & Ship</div>
+      </div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;color:var(--blue);">UK</div>
+        <div style="font-size:11px;color:var(--muted);">Free Delivery</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLE BANNER -->
+<div class="bundle-banner">
+  <div class="bundle-banner-inner">
+    <div class="bundle-flame">🔥</div>
+    <div class="bundle-text">
+      <span class="bundle-headline">Bundle up &amp; save more.</span>
+      <span class="bundle-sub">Pick your PC, add peripherals, pay less. The more you add, the more you save.</span>
+    </div>
+    <a href="#bundles" class="bundle-cta">
+      Shop <strong>Bundles</strong>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>✦ Hand-tested before shipping</span>
+    <span>✦ 90fps+ on CoD 1080p High</span>
+    <span>✦ Custom builds available</span>
+    <span>✦ Free UK delivery</span>
+    <span>✦ Real support, real person</span>
+    <span>✦ Parts, laptops &amp; monitors</span>
+    <span>✦ Bundle up &amp; save more</span>
+    <span>✦ Hand-tested before shipping</span>
+    <span>✦ 90fps+ on CoD 1080p High</span>
+    <span>✦ Custom builds available</span>
+    <span>✦ Free UK delivery</span>
+    <span>✦ Real support, real person</span>
+    <span>✦ Parts, laptops &amp; monitors</span>
+    <span>✦ Bundle up &amp; save more</span>
+  </div>
+</div>
+
+<!-- PREBUILT -->
+<section class="page-section" id="prebuilt">
+  <div class="section-head">
+    <p class="section-eyebrow">🖥️ Prebuilt PC</p>
+    <h2 class="section-title">Ready to ship</h2>
+    <p class="section-sub">Hand-built, benchmarked and shipped in 5 days. Includes Windows 11 Home, packaging and free UK tracked delivery on every order.</p>
+    <div style="margin-top:20px;background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Every build includes</div>
+      <div style="font-size:12px;color:var(--white);display:flex;flex-direction:column;gap:5px;">
+        <span>✅ Windows 11 Home (genuine licence)</span>
+        <span>✅ Stress tested before dispatch</span>
+        <span>✅ Double-boxed protective packaging</span>
+        <span>✅ Free UK tracked delivery</span>
+        <span>✅ 30-day support included</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:48px;">
+
+    <!-- GAMER SERIES -->
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:0.08em;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+        <span>🎮 Gamer Series</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;">
+
+        <!-- Gamer Core -->
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=600&q=80" alt="Gamer Core PC" style="width:100%;height:160px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available Now</span>
+          <h3 class="prod-name">Gamer Core</h3>
+          <p class="prod-sub">1080p beast. 90fps+ on CoD High. Perfect first gaming PC.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 5 5600</td></tr>
+            <tr><td>GPU</td><td>RX 6650 XT 8GB</td></tr>
+            <tr><td>RAM</td><td>16GB DDR4 3200MHz</td></tr>
+            <tr><td>Storage</td><td>500GB NVMe SSD</td></tr>
+            <tr><td>Motherboard</td><td>MSI PRO B550M-P GEN3</td></tr>
+            <tr><td>PSU</td><td>650W 80+ Bronze</td></tr>
+            <tr><td>Case</td><td>mATX Black Mid-Tower</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked · 5 days 📦</td></tr>
+          </table>
+          <div class="perf-wrap" style="margin-top:12px;">
+            <div class="perf-row"><span class="perf-game">CoD</span><div class="perf-track"><div class="perf-fill" style="width:72%"></div></div><span class="perf-fps">90–100fps</span></div>
+            <div class="perf-row"><span class="perf-game">Fortnite</span><div class="perf-track"><div class="perf-fill" style="width:86%"></div></div><span class="perf-fps">110–130fps</span></div>
+            <div class="perf-row"><span class="perf-game">Minecraft</span><div class="perf-track"><div class="perf-fill" style="width:100%"></div></div><span class="perf-fps">180+ fps</span></div>
+          </div>
+          <div class="price-row"><span class="price-main">£599</span><span class="price-note">inc. VAT · free delivery</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order now →</button>
+          <p class="buy-note">Built to order · ships within 5 business days</p>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openProduct('gamer-core')">📋 View full details</button>
+        </div>
+
+        <!-- Gamer Pro -->
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=600&q=80" alt="Gamer Pro PC" style="width:100%;height:160px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available Now</span>
+          <h3 class="prod-name">Gamer Pro</h3>
+          <p class="prod-sub">1440p gaming. RTX 3070 power for everything you throw at it.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 5 5600X</td></tr>
+            <tr><td>GPU</td><td>RTX 3070 8GB</td></tr>
+            <tr><td>RAM</td><td>16GB DDR4 3600MHz</td></tr>
+            <tr><td>Storage</td><td>1TB NVMe SSD</td></tr>
+            <tr><td>Motherboard</td><td>MSI MAG B550 Tomahawk</td></tr>
+            <tr><td>PSU</td><td>750W 80+ Gold</td></tr>
+            <tr><td>Case</td><td>ATX Black Mid-Tower</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked · 5 days 📦</td></tr>
+          </table>
+          <div class="perf-wrap" style="margin-top:12px;">
+            <div class="perf-row"><span class="perf-game">CoD</span><div class="perf-track"><div class="perf-fill" style="width:88%"></div></div><span class="perf-fps">100–120fps</span></div>
+            <div class="perf-row"><span class="perf-game">Fortnite</span><div class="perf-track"><div class="perf-fill" style="width:95%"></div></div><span class="perf-fps">140–165fps</span></div>
+            <div class="perf-row"><span class="perf-game">Warzone</span><div class="perf-track"><div class="perf-fill" style="width:82%"></div></div><span class="perf-fps">90–110fps</span></div>
+          </div>
+          <div class="price-row"><span class="price-main">£849</span><span class="price-note">inc. VAT · free delivery</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order now →</button>
+          <p class="buy-note">Built to order · ships within 5 business days</p>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openProduct('gamer-pro')">📋 View full details</button>
+        </div>
+
+        <!-- Gamer Elite -->
+        <div class="prod-card" style="border-color:rgba(79,142,247,0.4);position:relative;">
+          <div style="position:absolute;top:16px;right:16px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;padding:3px 8px;border-radius:4px;">BEST SELLER</div>
+          <img src="https://images.unsplash.com/photo-1593640408182-31c228b9c9dc?w=600&q=80" alt="Gamer Elite PC" style="width:100%;height:160px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available Now</span>
+          <h3 class="prod-name">Gamer Elite</h3>
+          <p class="prod-sub">1440p max settings. RTX 3080 — no compromises, no frame drops.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 7 5700X</td></tr>
+            <tr><td>GPU</td><td>RTX 3080 10GB</td></tr>
+            <tr><td>RAM</td><td>32GB DDR4 3600MHz</td></tr>
+            <tr><td>Storage</td><td>1TB NVMe + 2TB HDD</td></tr>
+            <tr><td>Motherboard</td><td>MSI MAG B550 Tomahawk</td></tr>
+            <tr><td>PSU</td><td>850W 80+ Gold</td></tr>
+            <tr><td>Case</td><td>ATX Black Full-Tower</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked · 5 days 📦</td></tr>
+          </table>
+          <div class="perf-wrap" style="margin-top:12px;">
+            <div class="perf-row"><span class="perf-game">CoD</span><div class="perf-track"><div class="perf-fill" style="width:100%"></div></div><span class="perf-fps">120–144fps</span></div>
+            <div class="perf-row"><span class="perf-game">Fortnite</span><div class="perf-track"><div class="perf-fill" style="width:100%"></div></div><span class="perf-fps">165+ fps</span></div>
+            <div class="perf-row"><span class="perf-game">Cyberpunk</span><div class="perf-track"><div class="perf-fill" style="width:90%"></div></div><span class="perf-fps">80–100fps</span></div>
+          </div>
+          <div class="price-row"><span class="price-main">£1,099</span><span class="price-note">inc. VAT · free delivery</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order now →</button>
+          <p class="buy-note">Built to order · ships within 5 business days</p>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openProduct('gamer-elite')">📋 View full details</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WORKSTATION SERIES -->
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:0.08em;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+        <span>🖥️ Workstation Series</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;">
+
+        <!-- Workstation Base -->
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80" alt="Workstation Base" style="width:100%;height:160px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available Now</span>
+          <h3 class="prod-name">Workstation Base</h3>
+          <p class="prod-sub">32GB RAM for serious multitasking. Coding, dev work and light creative.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 7 5700X</td></tr>
+            <tr><td>GPU</td><td>RTX 3060 12GB</td></tr>
+            <tr><td>RAM</td><td>32GB DDR4 3200MHz</td></tr>
+            <tr><td>Storage</td><td>1TB NVMe SSD</td></tr>
+            <tr><td>Motherboard</td><td>MSI PRO B550M-P GEN3</td></tr>
+            <tr><td>PSU</td><td>650W 80+ Bronze</td></tr>
+            <tr><td>Case</td><td>mATX Black Mid-Tower</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked · 5 days 📦</td></tr>
+          </table>
+          <div class="price-row" style="margin-top:16px;"><span class="price-main">£699</span><span class="price-note">inc. VAT · free delivery</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order now →</button>
+          <p class="buy-note">Built to order · ships within 5 business days</p>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openProduct('workstation-base')">📋 View full details</button>
+        </div>
+
+        <!-- Workstation Plus -->
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80" alt="Workstation Plus" style="width:100%;height:160px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available Now</span>
+          <h3 class="prod-name">Workstation Plus</h3>
+          <p class="prod-sub">64GB RAM. Video editing, heavy multitasking and professional software.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 7 5800X</td></tr>
+            <tr><td>GPU</td><td>RTX 3070 8GB</td></tr>
+            <tr><td>RAM</td><td>64GB DDR4 3200MHz</td></tr>
+            <tr><td>Storage</td><td>2TB NVMe SSD</td></tr>
+            <tr><td>Motherboard</td><td>MSI MAG B550 Tomahawk</td></tr>
+            <tr><td>PSU</td><td>750W 80+ Gold</td></tr>
+            <tr><td>Case</td><td>ATX Black Mid-Tower</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked · 5 days 📦</td></tr>
+          </table>
+          <div class="price-row" style="margin-top:16px;"><span class="price-main">£949</span><span class="price-note">inc. VAT · free delivery</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order now →</button>
+          <p class="buy-note">Built to order · ships within 5 business days</p>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openProduct('workstation-plus')">📋 View full details</button>
+        </div>
+
+        <!-- Workstation Max -->
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1625842268584-8f3296236761?w=600&q=80" alt="Workstation Max" style="width:100%;height:160px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available Now</span>
+          <h3 class="prod-name">Workstation Max</h3>
+          <p class="prod-sub">Ryzen 9 + RTX 3080. 3D rendering, full Adobe suite, no waiting.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 9 5900X</td></tr>
+            <tr><td>GPU</td><td>RTX 3080 10GB</td></tr>
+            <tr><td>RAM</td><td>64GB DDR4 3600MHz</td></tr>
+            <tr><td>Storage</td><td>2TB NVMe + 4TB HDD</td></tr>
+            <tr><td>Motherboard</td><td>MSI MEG B550 Unify</td></tr>
+            <tr><td>PSU</td><td>850W 80+ Gold</td></tr>
+            <tr><td>Case</td><td>ATX Black Full-Tower</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked · 5 days 📦</td></tr>
+          </table>
+          <div class="price-row" style="margin-top:16px;"><span class="price-main">£1,249</span><span class="price-note">inc. VAT · free delivery</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order now →</button>
+          <p class="buy-note">Built to order · ships within 5 business days</p>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openProduct('workstation-max')">📋 View full details</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CUSTOM PC -->
+<section class="page-section" id="custom">
+  <div class="section-head">
+    <p class="section-eyebrow">⚙️ Custom PC</p>
+    <h2 class="section-title">Built your way</h2>
+    <p class="section-sub">Pick your type, pick your tier, tell us your extras. We spec it, you approve it, we build and ship.</p>
+    <div style="margin-top:20px;background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Every custom build includes</div>
+      <div style="font-size:12px;color:var(--white);display:flex;flex-direction:column;gap:5px;">
+        <span>✅ Windows 11 Home (genuine licence)</span>
+        <span>✅ Stress tested before dispatch</span>
+        <span>✅ Double-boxed packaging</span>
+        <span>✅ Free UK tracked delivery</span>
+        <span>✅ 30-day support</span>
+      </div>
+    </div>
+    <div style="margin-top:16px;background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">How it works</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;gap:10px;align-items:center;font-size:12px;"><span style="color:var(--blue);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;">01</span><span>Pick a type & tier below</span></div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:12px;"><span style="color:var(--blue);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;">02</span><span>Message us your add-ons</span></div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:12px;"><span style="color:var(--blue);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;">03</span><span>Approve the quote</span></div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:12px;"><span style="color:var(--blue);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;">04</span><span>We build & ship in 5 days</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:48px;">
+
+    <!-- GAMER CUSTOM -->
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:0.08em;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+        <span>🎮 Gamer Custom</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=600&q=80" alt="Gamer Budget Custom" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-hot">Popular</span>
+          <h3 class="prod-name">Gamer Budget</h3>
+          <p class="prod-sub">Casual 1080p gaming. Fortnite, Minecraft, Roblox — all smooth.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 5 5600</td></tr>
+            <tr><td>GPU</td><td>RX 6600 8GB</td></tr>
+            <tr><td>RAM</td><td>16GB DDR4</td></tr>
+            <tr><td>Storage</td><td>500GB NVMe</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked 📦</td></tr>
+          </table>
+          <div style="margin:12px 0;padding:10px;background:var(--panel2);border-radius:6px;font-size:12px;">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.1em;">Add-ons available</div>
+            <div style="color:var(--muted);display:flex;flex-direction:column;gap:3px;">
+              <span>+ RGB lighting · £20</span>
+              <span>+ Extra 500GB storage · £35</span>
+              <span>+ WiFi card · £20</span>
+            </div>
+          </div>
+          <div class="price-row"><span class="price-main" style="font-size:36px;">From £350</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Configure & order →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openConfigurator('gamer')">🛠️ Open configurator</button>
+        </div>
+
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=600&q=80" alt="Gamer Mid Custom" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available</span>
+          <h3 class="prod-name">Gamer Mid</h3>
+          <p class="prod-sub">1080p High or 1440p. CoD, Warzone, Fortnite on high settings.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 5 5600X</td></tr>
+            <tr><td>GPU</td><td>RX 6650 XT or RTX 3060</td></tr>
+            <tr><td>RAM</td><td>16GB DDR4 3600MHz</td></tr>
+            <tr><td>Storage</td><td>1TB NVMe</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked 📦</td></tr>
+          </table>
+          <div style="margin:12px 0;padding:10px;background:var(--panel2);border-radius:6px;font-size:12px;">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.1em;">Add-ons available</div>
+            <div style="color:var(--muted);display:flex;flex-direction:column;gap:3px;">
+              <span>+ Upgrade to RTX 3060 · £30</span>
+              <span>+ 32GB RAM upgrade · £25</span>
+              <span>+ RGB + extra storage · £55</span>
+            </div>
+          </div>
+          <div class="price-row"><span class="price-main" style="font-size:36px;">£500–£750</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Configure & order →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openConfigurator('gamer')">🛠️ Open configurator</button>
+        </div>
+
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1593640408182-31c228b9c9dc?w=600&q=80" alt="Gamer High Custom" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available</span>
+          <h3 class="prod-name">Gamer High-End</h3>
+          <p class="prod-sub">Max settings, any game. 1440p at high refresh. RTX 3070 or 3080.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 7 5700X</td></tr>
+            <tr><td>GPU</td><td>RTX 3070 or RTX 3080</td></tr>
+            <tr><td>RAM</td><td>32GB DDR4 3600MHz</td></tr>
+            <tr><td>Storage</td><td>1TB NVMe</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked 📦</td></tr>
+          </table>
+          <div style="margin:12px 0;padding:10px;background:var(--panel2);border-radius:6px;font-size:12px;">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.1em;">Add-ons available</div>
+            <div style="color:var(--muted);display:flex;flex-direction:column;gap:3px;">
+              <span>+ Upgrade to RTX 3080 · +£150</span>
+              <span>+ 2TB storage · £50</span>
+              <span>+ Full RGB build · £35</span>
+            </div>
+          </div>
+          <div class="price-row"><span class="price-main" style="font-size:36px;">£750–£950</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Configure & order →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openConfigurator('gamer')">🛠️ Open configurator</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WORKSTATION CUSTOM -->
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:0.08em;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+        <span>🖥️ Workstation Custom</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80" alt="Coder Build" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-hot">Popular</span>
+          <h3 class="prod-name">Coder Build</h3>
+          <p class="prod-sub">Fast CPU, 32GB RAM. Built for developers and students.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 5 5600</td></tr>
+            <tr><td>GPU</td><td>RTX 3060 12GB</td></tr>
+            <tr><td>RAM</td><td>32GB DDR4</td></tr>
+            <tr><td>Storage</td><td>1TB NVMe</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked 📦</td></tr>
+          </table>
+          <div style="margin:12px 0;padding:10px;background:var(--panel2);border-radius:6px;font-size:12px;">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.1em;">Add-ons available</div>
+            <div style="color:var(--muted);display:flex;flex-direction:column;gap:3px;">
+              <span>+ Upgrade to 64GB RAM · £45</span>
+              <span>+ 2TB storage · £50</span>
+              <span>+ USB-C card · £20</span>
+            </div>
+          </div>
+          <div class="price-row"><span class="price-main" style="font-size:36px;">From £500</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Configure & order →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openConfigurator('workstation')">🛠️ Open configurator</button>
+        </div>
+
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80" alt="Creator Build" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available</span>
+          <h3 class="prod-name">Creator Build</h3>
+          <p class="prod-sub">64GB RAM, RTX GPU. Video editing, Premiere, DaVinci — ready.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 7 5700X</td></tr>
+            <tr><td>GPU</td><td>RTX 3070 8GB</td></tr>
+            <tr><td>RAM</td><td>64GB DDR4</td></tr>
+            <tr><td>Storage</td><td>2TB NVMe</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked 📦</td></tr>
+          </table>
+          <div style="margin:12px 0;padding:10px;background:var(--panel2);border-radius:6px;font-size:12px;">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.1em;">Add-ons available</div>
+            <div style="color:var(--muted);display:flex;flex-direction:column;gap:3px;">
+              <span>+ 4TB HDD archive drive · £55</span>
+              <span>+ Dual monitor support · £25</span>
+              <span>+ Upgrade to RTX 3080 · £150</span>
+            </div>
+          </div>
+          <div class="price-row"><span class="price-main" style="font-size:36px;">From £800</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Configure & order →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openConfigurator('workstation')">🛠️ Open configurator</button>
+        </div>
+
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1625842268584-8f3296236761?w=600&q=80" alt="Power Build" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available</span>
+          <h3 class="prod-name">Power Build</h3>
+          <p class="prod-sub">Ryzen 9. Top spec CPU + GPU. 3D, rendering, no waiting.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 9 5900X</td></tr>
+            <tr><td>GPU</td><td>RTX 3080 10GB</td></tr>
+            <tr><td>RAM</td><td>64GB DDR4 3600MHz</td></tr>
+            <tr><td>Storage</td><td>2TB NVMe + 4TB HDD</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked 📦</td></tr>
+          </table>
+          <div style="margin:12px 0;padding:10px;background:var(--panel2);border-radius:6px;font-size:12px;">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.1em;">Add-ons available</div>
+            <div style="color:var(--muted);display:flex;flex-direction:column;gap:3px;">
+              <span>+ 128GB RAM upgrade · £90</span>
+              <span>+ Extra 4TB storage · £65</span>
+              <span>+ Windows 11 Pro · £40</span>
+            </div>
+          </div>
+          <div class="price-row"><span class="price-main" style="font-size:36px;">From £1,050</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Configure & order →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openConfigurator('workstation')">🛠️ Open configurator</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- HYBRID CUSTOM -->
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:0.08em;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+        <span>⚡ Hybrid Custom</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=600&q=80" alt="Hybrid Entry" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-hot">Popular</span>
+          <h3 class="prod-name">Hybrid Entry</h3>
+          <p class="prod-sub">Study and game. Perfect for students who want both.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 5 5600</td></tr>
+            <tr><td>GPU</td><td>RX 6600 8GB</td></tr>
+            <tr><td>RAM</td><td>16GB DDR4</td></tr>
+            <tr><td>Storage</td><td>500GB NVMe</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked 📦</td></tr>
+          </table>
+          <div style="margin:12px 0;padding:10px;background:var(--panel2);border-radius:6px;font-size:12px;">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.1em;">Add-ons available</div>
+            <div style="color:var(--muted);display:flex;flex-direction:column;gap:3px;">
+              <span>+ Upgrade to 32GB RAM · £25</span>
+              <span>+ 1TB storage · £35</span>
+              <span>+ WiFi card · £20</span>
+            </div>
+          </div>
+          <div class="price-row"><span class="price-main" style="font-size:36px;">From £400</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Configure & order →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openConfigurator('hybrid')">🛠️ Open configurator</button>
+        </div>
+
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=600&q=80" alt="Hybrid Balanced" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available</span>
+          <h3 class="prod-name">Hybrid Balanced</h3>
+          <p class="prod-sub">Work hard, game harder. 32GB RAM, RTX 3060, handles everything.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 5 5600X</td></tr>
+            <tr><td>GPU</td><td>RTX 3060 12GB</td></tr>
+            <tr><td>RAM</td><td>32GB DDR4 3600MHz</td></tr>
+            <tr><td>Storage</td><td>1TB NVMe</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked 📦</td></tr>
+          </table>
+          <div style="margin:12px 0;padding:10px;background:var(--panel2);border-radius:6px;font-size:12px;">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.1em;">Add-ons available</div>
+            <div style="color:var(--muted);display:flex;flex-direction:column;gap:3px;">
+              <span>+ 2TB storage · £50</span>
+              <span>+ Upgrade GPU to RTX 3070 · £100</span>
+              <span>+ USB-C + WiFi bundle · £35</span>
+            </div>
+          </div>
+          <div class="price-row"><span class="price-main" style="font-size:36px;">£600–£800</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Configure & order →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openConfigurator('hybrid')">🛠️ Open configurator</button>
+        </div>
+
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1593640408182-31c228b9c9dc?w=600&q=80" alt="Hybrid Beast" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:16px;">
+          <span class="prod-badge badge-live">Available</span>
+          <h3 class="prod-name">Hybrid Beast</h3>
+          <p class="prod-sub">Zero compromise. Game at max, render fast, multitask freely.</p>
+          <table class="spec-table">
+            <tr><td>CPU</td><td>AMD Ryzen 7 5800X</td></tr>
+            <tr><td>GPU</td><td>RTX 3070 8GB</td></tr>
+            <tr><td>RAM</td><td>32GB DDR4 3600MHz</td></tr>
+            <tr><td>Storage</td><td>1TB NVMe</td></tr>
+            <tr><td>OS</td><td>Windows 11 Home ✅</td></tr>
+            <tr><td>Shipping</td><td>Free tracked 📦</td></tr>
+          </table>
+          <div style="margin:12px 0;padding:10px;background:var(--panel2);border-radius:6px;font-size:12px;">
+            <div style="font-weight:600;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:0.1em;">Add-ons available</div>
+            <div style="color:var(--muted);display:flex;flex-direction:column;gap:3px;">
+              <span>+ Upgrade to RTX 3080 · £150</span>
+              <span>+ 64GB RAM · £50</span>
+              <span>+ Full RGB + 2TB storage · £85</span>
+            </div>
+          </div>
+          <div class="price-row"><span class="price-main" style="font-size:36px;">From £900</span></div>
+          <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Configure & order →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px;" onclick="openConfigurator('hybrid')">🛠️ Open configurator</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GAMING LAPTOPS -->
+<section class="page-section" id="laptops">
+  <div class="section-head">
+    <p class="section-eyebrow">💻 Gaming Laptop</p>
+    <h2 class="section-title">Game anywhere</h2>
+    <p class="section-sub">Tested, refurbished gaming laptops. All checked for screen, battery, keyboard and GPU before listing.</p>
+  </div>
+
+  <div class="prod-grid">
+    <div class="prod-card" style="display:flex;flex-direction:column;min-height:220px;">
+      <span class="prod-badge badge-soon">Stock Coming</span>
+      <div class="coming-body">
+        <h3 class="prod-name">Budget Laptop</h3>
+        <p class="prod-sub">1080p gaming on a budget. GTX 1650 or similar. Fortnite, Minecraft, Roblox ready.</p>
+      </div>
+      <div class="coming-pill">Check back soon</div>
+    </div>
+
+    <div class="prod-card" style="display:flex;flex-direction:column;min-height:220px;">
+      <span class="prod-badge badge-soon">Stock Coming</span>
+      <div class="coming-body">
+        <h3 class="prod-name">Mid-Range Laptop</h3>
+        <p class="prod-sub">RTX 3060 or RX 6600M. High refresh rate screen. 1080p High on most titles.</p>
+      </div>
+      <div class="coming-pill">Check back soon</div>
+    </div>
+
+    <div class="prod-card" style="display:flex;flex-direction:column;min-height:220px;">
+      <span class="prod-badge badge-soon">Stock Coming</span>
+      <div class="coming-body">
+        <h3 class="prod-name">Looking for something specific?</h3>
+        <p class="prod-sub">Message us — we source laptops to order based on your budget and needs.</p>
+      </div>
+      <a href="#contact" class="buy-btn" style="margin-top:auto;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">
+        Get in touch →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PC PARTS -->
+<section class="page-section" id="parts">
+  <div class="section-head">
+    <p class="section-eyebrow">🔩 PC Parts</p>
+    <h2 class="section-title">Upgrade your rig</h2>
+    <p class="section-sub">Individual parts sourced, tested and listed. GPUs, CPUs, RAM, SSDs and more.</p>
+  </div>
+
+  <div class="parts-grid">
+    <div class="part-card">
+      <div class="part-icon">🎮</div>
+      <div class="part-name">Graphics Cards</div>
+      <div class="part-desc">RTX 30-series, RX 6000-series. Tested under load before listing.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">⚡</div>
+      <div class="part-name">CPUs</div>
+      <div class="part-desc">AM4 and Intel LGA1200/1700. Ryzen 5, Ryzen 7 and more.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">🧠</div>
+      <div class="part-name">RAM</div>
+      <div class="part-desc">DDR4 8GB, 16GB, 32GB kits. Tested for stability.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">💾</div>
+      <div class="part-name">Storage</div>
+      <div class="part-desc">NVMe SSDs and SATA drives. Health-checked before sale.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">🖥️</div>
+      <div class="part-name">Monitors</div>
+      <div class="part-desc">1080p and 1440p panels. 144Hz+ gaming monitors.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">🔌</div>
+      <div class="part-name">Motherboards & PSUs</div>
+      <div class="part-desc">B550, B450 mATX and ATX boards. Bronze/Gold rated PSUs.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;">
+    <a href="#contact" class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">Looking for a specific part? Message us →</a>
+  </div>
+</section>
+
+<!-- PERIPHERALS -->
+<section class="page-section" id="peripherals">
+  <div class="section-head">
+    <p class="section-eyebrow">🖱️ Peripherals</p>
+    <h2 class="section-title">Complete your setup</h2>
+    <p class="section-sub">Keyboards, mice, mats and cables. Everything you need around the machine.</p>
+  </div>
+
+  <div class="parts-grid">
+    <div class="part-card">
+      <div class="part-icon">⌨️</div>
+      <div class="part-name">Keyboards</div>
+      <div class="part-desc">Mechanical & membrane. Wired and wireless. Gaming and everyday.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">🖱️</div>
+      <div class="part-name">Mice</div>
+      <div class="part-desc">High DPI gaming mice. Wired and wireless. Tested for tracking accuracy.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">🟦</div>
+      <div class="part-name">Mouse Mats</div>
+      <div class="part-desc">Small, large and XXL sizes. Cloth and hard surface options.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">⬛</div>
+      <div class="part-name">Keyboard Mats</div>
+      <div class="part-desc">Padded wrist rests and full desk pads. Keeps your setup clean.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">🔌</div>
+      <div class="part-name">Dongle Cables</div>
+      <div class="part-desc">USB-A, USB-C and wireless receiver cables. Fits most gaming peripherals.</div>
+    </div>
+    <div class="part-card">
+      <div class="part-icon">📡</div>
+      <div class="part-name">Adapters & Hubs</div>
+      <div class="part-desc">USB hubs, Bluetooth dongles and multi-port adapters.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;">
+    <a href="#contact" class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">Looking for something specific? Message us →</a>
+  </div>
+</section>
+
+<!-- BUNDLES -->
+<section class="page-section" id="bundles">
+  <div class="section-head">
+    <p class="section-eyebrow">🎁 Bundles</p>
+    <h2 class="section-title">Bundle up &amp; save</h2>
+    <p class="section-sub">Pick a ready-made bundle or build your own. The more items you add, the more you save.</p>
+  </div>
+
+  <!-- GAMER BUNDLES -->
+  <p style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:0.1em;color:var(--blue);margin-bottom:16px;">🎮 Gamer Bundles</p>
+  <div class="bundle-grid" style="margin-bottom:40px;">
+
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <span class="bundle-name">Gamer Starter</span>
+        <span class="bundle-save-tag">Save £40</span>
+      </div>
+      <ul class="bundle-items">
+        <li>Gamer Core PC (RX 6650 XT · 1080p)</li>
+        <li>Gaming Mouse</li>
+        <li>Mechanical Keyboard</li>
+        <li>XXL Mouse Mat</li>
+      </ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">£659</span>
+        <span class="bundle-was">£699</span>
+      </div>
+      <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this bundle →</button>
+    </div>
+
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <span class="bundle-name">Gamer Pro</span>
+        <span class="bundle-save-tag">Save £75</span>
+      </div>
+      <ul class="bundle-items">
+        <li>Gamer Pro PC (RTX 3070 · 1440p)</li>
+        <li>1440p 144Hz Monitor</li>
+        <li>Gaming Mouse + Keyboard</li>
+        <li>Desk Mat + USB Hub</li>
+      </ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">£1,049</span>
+        <span class="bundle-was">£1,124</span>
+      </div>
+      <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this bundle →</button>
+    </div>
+
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <span class="bundle-name">Gamer Ultimate</span>
+        <span class="bundle-save-tag">Save £120</span>
+      </div>
+      <ul class="bundle-items">
+        <li>Gamer Elite PC (RTX 3080 · 1440p Max)</li>
+        <li>1440p 165Hz Monitor</li>
+        <li>Pro Gaming Mouse + Keyboard</li>
+        <li>XXL Desk Mat + Keyboard Mat</li>
+        <li>USB-C Hub + Dongle Cable</li>
+      </ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">£1,329</span>
+        <span class="bundle-was">£1,449</span>
+      </div>
+      <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this bundle →</button>
+    </div>
+  </div>
+
+  <!-- WORKSTATION BUNDLES -->
+  <p style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:0.1em;color:var(--blue);margin-bottom:16px;">🖥️ Workstation Bundles</p>
+  <div class="bundle-grid" style="margin-bottom:40px;">
+
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <span class="bundle-name">Work Essentials</span>
+        <span class="bundle-save-tag">Save £35</span>
+      </div>
+      <ul class="bundle-items">
+        <li>Workstation Base PC (32GB RAM)</li>
+        <li>Wireless Keyboard + Mouse</li>
+        <li>USB Hub</li>
+      </ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">£764</span>
+        <span class="bundle-was">£799</span>
+      </div>
+      <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this bundle →</button>
+    </div>
+
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <span class="bundle-name">Work Pro</span>
+        <span class="bundle-save-tag">Save £80</span>
+      </div>
+      <ul class="bundle-items">
+        <li>Workstation Plus PC (64GB RAM)</li>
+        <li>Dual 1080p Monitor Setup</li>
+        <li>Wireless Keyboard + Mouse</li>
+        <li>Desk Mat</li>
+      </ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">£1,119</span>
+        <span class="bundle-was">£1,199</span>
+      </div>
+      <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this bundle →</button>
+    </div>
+
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <span class="bundle-name">Work Ultimate</span>
+        <span class="bundle-save-tag">Save £100</span>
+      </div>
+      <ul class="bundle-items">
+        <li>Workstation Max PC (64GB + RTX GPU)</li>
+        <li>27" 4K Monitor</li>
+        <li>Pro Keyboard + Mouse</li>
+        <li>Full Desk Mat + Keyboard Mat</li>
+        <li>USB-C Hub + Cables</li>
+      </ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">£1,449</span>
+        <span class="bundle-was">£1,549</span>
+      </div>
+      <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this bundle →</button>
+    </div>
+  </div>
+
+  <!-- HYBRID BUNDLES -->
+  <p style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:0.1em;color:var(--blue);margin-bottom:16px;">⚡ Hybrid Bundles</p>
+  <div class="bundle-grid" style="margin-bottom:48px;">
+
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <span class="bundle-name">Hybrid Starter</span>
+        <span class="bundle-save-tag">Save £45</span>
+      </div>
+      <ul class="bundle-items">
+        <li>Hybrid Starter PC (16GB · 1080p)</li>
+        <li>Gaming Mouse + Keyboard</li>
+        <li>Mouse Mat</li>
+      </ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">£704</span>
+        <span class="bundle-was">£749</span>
+      </div>
+      <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this bundle →</button>
+    </div>
+
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <span class="bundle-name">Hybrid Pro</span>
+        <span class="bundle-save-tag">Save £85</span>
+      </div>
+      <ul class="bundle-items">
+        <li>Hybrid Pro PC (32GB · 1440p)</li>
+        <li>1440p Monitor</li>
+        <li>Gaming Mouse + Keyboard</li>
+        <li>XXL Desk Mat</li>
+      </ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">£1,064</span>
+        <span class="bundle-was">£1,149</span>
+      </div>
+      <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this bundle →</button>
+    </div>
+
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <span class="bundle-name">Hybrid Beast</span>
+        <span class="bundle-save-tag">Save £130</span>
+      </div>
+      <ul class="bundle-items">
+        <li>Hybrid Ultra PC (32GB RTX · Max spec)</li>
+        <li>1440p 165Hz Monitor</li>
+        <li>Pro Mouse + Mechanical Keyboard</li>
+        <li>XXL Desk Mat + Keyboard Mat</li>
+        <li>USB-C Hub + Dongle Cables</li>
+      </ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">£1,369</span>
+        <span class="bundle-was">£1,499</span>
+      </div>
+      <button class="buy-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this bundle →</button>
+    </div>
+  </div>
+
+  <!-- BUILD YOUR OWN -->
+  <div class="byo-section">
+    <h3 class="byo-title">🛒 Build your own bundle</h3>
+    <p class="byo-sub">Select any 2+ items and we'll apply your discount automatically. More items = bigger saving.</p>
+    <div class="byo-categories" id="byoGrid">
+      <div class="byo-cat" onclick="toggleByo(this)">
+        <div class="byo-cat-icon">🖥️</div>
+        <div class="byo-cat-name">Prebuilt PC</div>
+        <div class="byo-cat-desc">Any tier</div>
+      </div>
+      <div class="byo-cat" onclick="toggleByo(this)">
+        <div class="byo-cat-icon">🖥️</div>
+        <div class="byo-cat-name">Monitor</div>
+        <div class="byo-cat-desc">1080p / 1440p</div>
+      </div>
+      <div class="byo-cat" onclick="toggleByo(this)">
+        <div class="byo-cat-icon">⌨️</div>
+        <div class="byo-cat-name">Keyboard</div>
+        <div class="byo-cat-desc">Mech or membrane</div>
+      </div>
+      <div class="byo-cat" onclick="toggleByo(this)">
+        <div class="byo-cat-icon">🖱️</div>
+        <div class="byo-cat-name">Mouse</div>
+        <div class="byo-cat-desc">Gaming or office</div>
+      </div>
+      <div class="byo-cat" onclick="toggleByo(this)">
+        <div class="byo-cat-icon">🟦</div>
+        <div class="byo-cat-name">Mouse Mat</div>
+        <div class="byo-cat-desc">Small to XXL</div>
+      </div>
+      <div class="byo-cat" onclick="toggleByo(this)">
+        <div class="byo-cat-icon">⬛</div>
+        <div class="byo-cat-name">Keyboard Mat</div>
+        <div class="byo-cat-desc">Desk pad / wrist rest</div>
+      </div>
+      <div class="byo-cat" onclick="toggleByo(this)">
+        <div class="byo-cat-icon">🔌</div>
+        <div class="byo-cat-name">Cables & Dongles</div>
+        <div class="byo-cat-desc">USB-A, USB-C</div>
+      </div>
+      <div class="byo-cat" onclick="toggleByo(this)">
+        <div class="byo-cat-icon">📡</div>
+        <div class="byo-cat-name">USB Hub</div>
+        <div class="byo-cat-desc">Multi-port adapter</div>
+      </div>
+    </div>
+    <div class="byo-footer">
+      <span class="byo-selected-count" id="byoCount"><strong>0</strong> items selected — select 2+ to unlock a discount</span>
+      <span class="byo-discount-badge" id="byoBadge" style="display:none;"></span>
+      <button class="buy-btn" style="width:auto;padding:12px 24px;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a quote for my bundle →</button>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="page-section" id="why" style="border-bottom:1px solid var(--border);">
+  <div class="section-head">
+    <p class="section-eyebrow">Why StarTech</p>
+    <h2 class="section-title">What you get</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🔧</div>
+      <h3 class="why-title">Tested before it ships</h3>
+      <p class="why-body">Every build is benchmarked and stress-tested. You're not getting a box of parts — you're getting a machine that already runs.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🎯</div>
+      <h3 class="why-title">Specced for your games</h3>
+      <p class="why-body">We build around what you actually play. If you need 90fps on CoD, we make sure it hits that before it leaves.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💬</div>
+      <h3 class="why-title">Real support</h3>
+      <p class="why-body">Message us directly after you receive it. No ticket systems — just a real person who built your machine.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🚚</div>
+      <h3 class="why-title">Free UK delivery</h3>
+      <p class="why-body">All prebuilts ship free, fully packaged and insured. Tracked so you know exactly when it arrives.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="page-section" id="contact">
+  <div class="section-head">
+    <p class="section-eyebrow">Contact</p>
+    <h2 class="section-title">Get in touch</h2>
+    <p class="section-sub">Order a prebuilt, start a custom build, or ask about parts — we'll get back to you fast.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <h3>📧 Email Us</h3>
+      <p>Best for orders, custom build quotes, and part requests.</p>
+      <a href="mailto:hello@startechpc.co.uk" class="contact-link">hello@startechpc.co.uk</a>
+    </div>
+    <div class="contact-card">
+      <h3>📱 Message Us</h3>
+      <p>Quick questions, stock availability, or just want to chat builds.</p>
+      <a href="#" class="contact-link">Instagram / WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Star<span>Tech</span></span>
+  <p>Built in Bournemouth · © 2026 StarTech · All rights reserved</p>
+</footer>
+
+</div><!-- end main-content -->
+</div><!-- end site-wrapper -->
+
+<script>
+  // Sidebar scroll-spy
+  const sidebarLinks = document.querySelectorAll('.sidebar a');
+  const sections = document.querySelectorAll('section[id], div[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    sidebarLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+
+  // BYO Bundle selector
+  function toggleByo(el) {
+    el.classList.toggle('selected');
+    const selected = document.querySelectorAll('.byo-cat.selected').length;
+    const countEl = document.getElementById('byoCount');
+    const badge = document.getElementById('byoBadge');
+    let discount = '';
+    if (selected === 0) {
+      countEl.innerHTML = '<strong>0</strong> items selected — select 2+ to unlock a discount';
+      badge.style.display = 'none';
+    } else if (selected === 1) {
+      countEl.innerHTML = '<strong>1</strong> item selected — add 1 more to unlock a discount';
+      badge.style.display = 'none';
+    } else if (selected === 2) {
+      discount = 'Save £20'; countEl.innerHTML = '<strong>2</strong> items selected';
+    } else if (selected === 3) {
+      discount = 'Save £40'; countEl.innerHTML = '<strong>3</strong> items selected';
+    } else if (selected === 4) {
+      discount = 'Save £65'; countEl.innerHTML = '<strong>4</strong> items selected';
+    } else if (selected >= 5) {
+      discount = `Save £${50 + (selected - 4) * 20} 🔥`; countEl.innerHTML = `<strong>${selected}</strong> items selected`;
+    }
+    if (discount) { badge.textContent = discount; badge.style.display = 'inline-block'; }
+  }
+
+  document.querySelectorAll('.nav-trigger').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const item = trigger.closest('.nav-item');
+      const isOpen = item.classList.contains('open');
+      // close all
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
+  });
+
+  // Flyout rows — keep hover but also support click on mobile
+  document.querySelectorAll('.flyout-trigger').forEach(ft => {
+    ft.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const row = ft.closest('.flyout-row');
+      row.classList.toggle('open');
+    });
+  });
+</script>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <img class="modal-hero-img" id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <p class="modal-eyebrow" id="modalEyebrow"></p>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-tagline" id="modalTagline"></p>
+      <div class="modal-includes" id="modalIncludes"></div>
+      <div class="modal-cols">
+        <div>
+          <p class="modal-col-title">Full Specifications</p>
+          <div id="modalSpecs"></div>
+        </div>
+        <div>
+          <p class="modal-col-title" id="modalPerfLabel"></p>
+          <div id="modalPerf"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div>
+          <div class="modal-price" id="modalPrice"></div>
+          <div class="modal-price-note">inc. VAT · Free UK tracked delivery · 5 day build</div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-ghost" onclick="closeModal()">Close</button>
+          <button class="buy-btn" style="width:auto;padding:13px 28px;" onclick="closeModal();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Order this build →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIGURATOR MODAL -->
+<div class="modal-overlay" id="configModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeConfig()">✕</button>
+    <div class="modal-body">
+      <p class="modal-eyebrow">⚙️ Custom PC Configurator</p>
+      <h2 class="modal-title" id="configTitle">Build Your PC</h2>
+      <p class="modal-tagline" id="configSubtitle"></p>
+      <div class="config-progress" id="cfgProgress"></div>
+      <!-- Platform step -->
+      <div class="config-step active" id="cstep-platform">
+        <div class="platform-grid">
+          <div class="platform-card" onclick="selectPlatform('amd-ddr4',this)"><div class="p-icon">🔴</div><div class="p-name">AMD + DDR4</div><div class="p-sub">Ryzen 5000 · AM4 · Best value</div></div>
+          <div class="platform-card" onclick="selectPlatform('intel-ddr4',this)"><div class="p-icon">🔵</div><div class="p-name">Intel + DDR4</div><div class="p-sub">12th Gen · LGA1700 · Reliable</div></div>
+          <div class="platform-card" onclick="selectPlatform('amd-ddr5',this)"><div class="p-icon">🟣</div><div class="p-name">AMD + DDR5</div><div class="p-sub">Ryzen 7000 · AM5 · Future-proof</div></div>
+          <div class="platform-card" onclick="selectPlatform('intel-ddr5',this)"><div class="p-icon">⚡</div><div class="p-name">Intel + DDR5</div><div class="p-sub">13th Gen · LGA1700 · Top performance</div></div>
+        </div>
+      </div>
+      <!-- Component step -->
+      <div class="config-step" id="cstep-comp">
+        <div id="compContent"></div>
+        <div class="config-nav">
+          <button class="btn-ghost" onclick="configBack()">← Back</button>
+          <button class="buy-btn" style="width:auto;padding:12px 24px;" onclick="configNext()">Next →</button>
+        </div>
+      </div>
+      <!-- Summary step -->
+      <div class="config-step" id="cstep-summary">
+        <p class="modal-col-title" style="margin-bottom:12px;">Your Build Summary</p>
+        <div style="background:var(--panel2);border-radius:8px;padding:16px;margin-bottom:16px;">
+          <div id="summaryRows"></div>
+          <div class="config-total">
+            <span class="config-total-lbl">Estimated Total</span>
+            <span class="config-total-price" id="summaryTotal">£0</span>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:20px;">✅ Windows 11 Home included &nbsp;·&nbsp; 📦 Free UK tracked delivery &nbsp;·&nbsp; 🔧 30-day support</p>
+        <div class="config-nav">
+          <button class="btn-ghost" onclick="configBack()">← Back</button>
+          <button class="buy-btn" style="width:auto;padding:12px 24px;" onclick="closeConfig();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Request this build →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─── PRODUCT DATA ─── */
+const products = {
+  'gamer-core':{ eyebrow:'🎮 Gamer Series · Prebuilt', title:'Gamer Core', price:'£599',
+    img:'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=900&q=85',
+    tagline:'The perfect entry into 1080p gaming. Hits 90fps+ on Call of Duty High settings right out of the box — tested and verified before it ships.',
+    specs:[['CPU','AMD Ryzen 5 5600'],['GPU','RX 6650 XT 8GB'],['RAM','16GB DDR4 3200MHz'],['Storage','500GB NVMe SSD'],['Motherboard','MSI PRO B550M-P GEN3'],['PSU','650W 80+ Bronze'],['Case','mATX Black Mid-Tower'],['OS','Windows 11 Home'],['Shipping','Free UK tracked · 5 days']],
+    perfLabel:'1080p High Settings', perf:[['Call of Duty','90–100fps',72],['Fortnite','110–130fps',86],['Minecraft','180+ fps',100]]},
+  'gamer-pro':{ eyebrow:'🎮 Gamer Series · Prebuilt', title:'Gamer Pro', price:'£849',
+    img:'https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=900&q=85',
+    tagline:'Step up to 1440p. The RTX 3070 handles every modern title at high settings with headroom to spare. Built for players who want more.',
+    specs:[['CPU','AMD Ryzen 5 5600X'],['GPU','RTX 3070 8GB'],['RAM','16GB DDR4 3600MHz'],['Storage','1TB NVMe SSD'],['Motherboard','MSI MAG B550 Tomahawk'],['PSU','750W 80+ Gold'],['Case','ATX Black Mid-Tower'],['OS','Windows 11 Home'],['Shipping','Free UK tracked · 5 days']],
+    perfLabel:'1440p High Settings', perf:[['Call of Duty','100–120fps',88],['Fortnite','140–165fps',95],['Warzone','90–110fps',82]]},
+  'gamer-elite':{ eyebrow:'🎮 Gamer Series · Prebuilt', title:'Gamer Elite', price:'£1,099',
+    img:'https://images.unsplash.com/photo-1593640408182-31c228b9c9dc?w=900&q=85',
+    tagline:'No compromises. The RTX 3080 delivers 1440p at max settings, every game, every time. Our most powerful gaming build.',
+    specs:[['CPU','AMD Ryzen 7 5700X'],['GPU','RTX 3080 10GB'],['RAM','32GB DDR4 3600MHz'],['Storage','1TB NVMe + 2TB HDD'],['Motherboard','MSI MAG B550 Tomahawk'],['PSU','850W 80+ Gold'],['Case','ATX Black Full-Tower'],['OS','Windows 11 Home'],['Shipping','Free UK tracked · 5 days']],
+    perfLabel:'1440p Max Settings', perf:[['Call of Duty','120–144fps',100],['Fortnite','165+ fps',100],['Cyberpunk 2077','80–100fps',90]]},
+  'workstation-base':{ eyebrow:'🖥️ Workstation Series · Prebuilt', title:'Workstation Base', price:'£699',
+    img:'https://images.unsplash.com/photo-1547082299-de196ea013d6?w=900&q=85',
+    tagline:'Built for coders, students and developers. 32GB RAM handles multiple environments, VMs and heavy browser tabs without breaking a sweat.',
+    specs:[['CPU','AMD Ryzen 7 5700X'],['GPU','RTX 3060 12GB'],['RAM','32GB DDR4 3200MHz'],['Storage','1TB NVMe SSD'],['Motherboard','MSI PRO B550M-P GEN3'],['PSU','650W 80+ Bronze'],['Case','mATX Black Mid-Tower'],['OS','Windows 11 Home'],['Shipping','Free UK tracked · 5 days']],
+    perfLabel:'Workload Performance', perf:[['VS Code + Docker','Instant',100],['Chrome 30 tabs','No lag',95],['Light gaming','60–80fps',70]]},
+  'workstation-plus':{ eyebrow:'🖥️ Workstation Series · Prebuilt', title:'Workstation Plus', price:'£949',
+    img:'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=900&q=85',
+    tagline:'64GB RAM and a Ryzen 7 5800X. Video editing, heavy multitasking, professional software — all handled. Exports in minutes, not hours.',
+    specs:[['CPU','AMD Ryzen 7 5800X'],['GPU','RTX 3070 8GB'],['RAM','64GB DDR4 3200MHz'],['Storage','2TB NVMe SSD'],['Motherboard','MSI MAG B550 Tomahawk'],['PSU','750W 80+ Gold'],['Case','ATX Black Mid-Tower'],['OS','Windows 11 Home'],['Shipping','Free UK tracked · 5 days']],
+    perfLabel:'Creative Workload', perf:[['4K Video Export','Fast',95],['Premiere Pro','No stutter',100],['After Effects','Smooth',90]]},
+  'workstation-max':{ eyebrow:'🖥️ Workstation Series · Prebuilt', title:'Workstation Max', price:'£1,249',
+    img:'https://images.unsplash.com/photo-1625842268584-8f3296236761?w=900&q=85',
+    tagline:'Ryzen 9 5900X, RTX 3080, 6TB total storage. Built for 3D artists, architects and anyone who cannot afford to wait.',
+    specs:[['CPU','AMD Ryzen 9 5900X'],['GPU','RTX 3080 10GB'],['RAM','64GB DDR4 3600MHz'],['Storage','2TB NVMe + 4TB HDD'],['Motherboard','MSI MEG B550 Unify'],['PSU','850W 80+ Gold'],['Case','ATX Black Full-Tower'],['OS','Windows 11 Home'],['Shipping','Free UK tracked · 5 days']],
+    perfLabel:'3D & Rendering', perf:[['Blender Render','Top tier',100],['3ds Max','Excellent',100],['DaVinci Resolve','Real-time',98]]},
+  'bundle-gamer-starter':{ eyebrow:'🎁 Bundle · Gamer', title:'Gamer Starter Bundle', price:'£659',
+    img:'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=900&q=85',
+    tagline:'Everything you need to go from nothing to gaming in one order. PC, peripherals, mat — all matched, all ready.',
+    specs:[['PC','Gamer Core (RX 6650 XT)'],['Mouse','Gaming mouse'],['Keyboard','Mechanical keyboard'],['Mat','XXL mouse mat'],['OS','Windows 11 Home'],['Shipping','Free UK tracked'],['Saving','£40 vs separate']],
+    perfLabel:'1080p High Settings', perf:[['Call of Duty','90–100fps',72],['Fortnite','110–130fps',86],['Minecraft','180+ fps',100]]},
+  'bundle-gamer-pro':{ eyebrow:'🎁 Bundle · Gamer', title:'Gamer Pro Bundle', price:'£1,049',
+    img:'https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=900&q=85',
+    tagline:'A full 1440p setup in one go. PC, monitor, mouse, keyboard, mat and USB hub — nothing left to buy.',
+    specs:[['PC','Gamer Pro (RTX 3070)'],['Monitor','1440p 144Hz'],['Mouse','Pro gaming mouse'],['Keyboard','Mech keyboard'],['Mat','Desk mat + USB hub'],['OS','Windows 11 Home'],['Shipping','Free UK tracked'],['Saving','£75 vs separate']],
+    perfLabel:'1440p High Settings', perf:[['Call of Duty','100–120fps',88],['Fortnite','140–165fps',95],['Warzone','90–110fps',82]]},
+  'bundle-gamer-ultimate':{ eyebrow:'🎁 Bundle · Gamer', title:'Gamer Ultimate Bundle', price:'£1,329',
+    img:'https://images.unsplash.com/photo-1593640408182-31c228b9c9dc?w=900&q=85',
+    tagline:'The complete rig. Every piece chosen to match. RTX 3080, 1440p 165Hz, full peripheral set — save £120.',
+    specs:[['PC','Gamer Elite (RTX 3080)'],['Monitor','1440p 165Hz'],['Mouse','Pro gaming mouse'],['Keyboard','Pro mech keyboard'],['Mats','XXL desk mat + keyboard mat'],['Cables','USB-C hub + dongle'],['OS','Windows 11 Home'],['Shipping','Free UK tracked'],['Saving','£120 vs separate']],
+    perfLabel:'1440p Max Settings', perf:[['Call of Duty','120–144fps',100],['Fortnite','165+ fps',100],['Cyberpunk','80–100fps',90]]},
+  'bundle-work-essentials':{ eyebrow:'🎁 Bundle · Workstation', title:'Work Essentials Bundle', price:'£764',
+    img:'https://images.unsplash.com/photo-1547082299-de196ea013d6?w=900&q=85',
+    tagline:'Plug in and get to work. Workstation Base with wireless keyboard and mouse — your desk sorted in one delivery.',
+    specs:[['PC','Workstation Base (32GB)'],['Keyboard','Wireless keyboard'],['Mouse','Wireless mouse'],['Hub','USB hub'],['OS','Windows 11 Home'],['Shipping','Free UK tracked'],['Saving','£35 vs separate']],
+    perfLabel:'Workload Performance', perf:[['Multitasking','Excellent',100],['Dev tools','Instant',95],['Light gaming','70+ fps',65]]},
+  'bundle-work-pro':{ eyebrow:'🎁 Bundle · Workstation', title:'Work Pro Bundle', price:'£1,119',
+    img:'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=900&q=85',
+    tagline:'Dual screens, 64GB RAM, wireless setup. Everything a professional needs in one order — save £80.',
+    specs:[['PC','Workstation Plus (64GB)'],['Monitors','Dual 1080p setup'],['Keyboard','Wireless keyboard'],['Mouse','Wireless mouse'],['Mat','Desk mat'],['OS','Windows 11 Home'],['Shipping','Free UK tracked'],['Saving','£80 vs separate']],
+    perfLabel:'Creative Workload', perf:[['Video export','Fast',95],['Multitasking','No slowdown',100],['Creative apps','Smooth',90]]},
+  'bundle-work-ultimate':{ eyebrow:'🎁 Bundle · Workstation', title:'Work Ultimate Bundle', price:'£1,449',
+    img:'https://images.unsplash.com/photo-1625842268584-8f3296236761?w=900&q=85',
+    tagline:'The full professional desk. Ryzen 9, RTX 3080, 4K monitor, mats and cables — everything from scratch, save £100.',
+    specs:[['PC','Workstation Max (Ryzen 9)'],['Monitor','27" 4K monitor'],['Keyboard','Pro keyboard'],['Mouse','Pro mouse'],['Mats','Desk mat + keyboard mat'],['Cables','USB-C hub'],['OS','Windows 11 Home'],['Shipping','Free UK tracked'],['Saving','£100 vs separate']],
+    perfLabel:'3D & Rendering', perf:[['Blender','Top tier',100],['DaVinci','Real-time 4K',98],['3ds Max','Excellent',100]]},
+  'bundle-hybrid-starter':{ eyebrow:'🎁 Bundle · Hybrid', title:'Hybrid Starter Bundle', price:'£704',
+    img:'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=900&q=85',
+    tagline:'Study and game in one setup. Mouse, keyboard and mat included — ready to use the moment it arrives.',
+    specs:[['PC','Hybrid Starter (16GB)'],['Mouse','Gaming mouse'],['Keyboard','Gaming keyboard'],['Mat','Mouse mat'],['OS','Windows 11 Home'],['Shipping','Free UK tracked'],['Saving','£45 vs separate']],
+    perfLabel:'1080p Mixed Use', perf:[['Gaming 1080p','80–100fps',78],['Coding','Smooth',90],['Multitasking','Good',80]]},
+  'bundle-hybrid-pro':{ eyebrow:'🎁 Bundle · Hybrid', title:'Hybrid Pro Bundle', price:'£1,064',
+    img:'https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=900&q=85',
+    tagline:'Work, game and create. 32GB RAM, 1440p monitor, full peripherals. One order, complete setup — save £85.',
+    specs:[['PC','Hybrid Pro (32GB RTX 3060)'],['Monitor','1440p monitor'],['Mouse','Gaming mouse'],['Keyboard','Mech keyboard'],['Mat','XXL desk mat'],['OS','Windows 11 Home'],['Shipping','Free UK tracked'],['Saving','£85 vs separate']],
+    perfLabel:'1440p Mixed Use', perf:[['Gaming 1440p','90–110fps',85],['Video editing','Fast',88],['Dev work','Smooth',95]]},
+  'bundle-hybrid-beast':{ eyebrow:'🎁 Bundle · Hybrid', title:'Hybrid Beast Bundle', price:'£1,369',
+    img:'https://images.unsplash.com/photo-1593640408182-31c228b9c9dc?w=900&q=85',
+    tagline:'The ultimate all-rounder. RTX 3070, 1440p 165Hz, full mats and cables — nothing left to add, save £130.',
+    specs:[['PC','Hybrid Ultra (32GB RTX 3070)'],['Monitor','1440p 165Hz'],['Mouse','Pro mouse'],['Keyboard','Pro mech keyboard'],['Mats','Desk mat + keyboard mat'],['Cables','USB-C hub + dongles'],['OS','Windows 11 Home'],['Shipping','Free UK tracked'],['Saving','£130 vs separate']],
+    perfLabel:'1440p Max Mixed Use', perf:[['Gaming 1440p','100–120fps',90],['Creative work','Excellent',95],['Multitasking','No limits',100]]},
+};
+
+function openProduct(id) {
+  const p = products[id]; if (!p) return;
+  document.getElementById('modalImg').src = p.img;
+  document.getElementById('modalEyebrow').textContent = p.eyebrow;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalTagline').textContent = p.tagline;
+  document.getElementById('modalPrice').textContent = p.price;
+  document.getElementById('modalIncludes').innerHTML =
+    ['✅ Windows 11 Home','📦 Free UK tracked delivery','🔧 5-day build & ship','💬 30-day support']
+    .map(s=>`<span class="modal-include-chip">${s}</span>`).join('');
+  document.getElementById('modalSpecs').innerHTML =
+    p.specs.map(([k,v])=>`<div class="modal-spec-row"><span>${k}</span><span>${v}</span></div>`).join('');
+  document.getElementById('modalPerfLabel').textContent = p.perfLabel;
+  document.getElementById('modalPerf').innerHTML = p.perf.map(([g,f,pct])=>`
+    <div class="perf-row" style="margin-bottom:10px;">
+      <span class="perf-game" style="width:130px;font-size:12px;">${g}</span>
+      <div class="perf-track"><div class="perf-fill" style="width:${pct}%"></div></div>
+      <span class="perf-fps" style="font-size:12px;">${f}</span>
+    </div>`).join('');
+  document.getElementById('productModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('productModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('productModal').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+
+/* ─── CONFIGURATOR ─── */
+const STEPS = ['case','motherboard','cpu','ram','ssd','hdd','cpu cooler','gpu','fans'];
+const LABOUR = 80;
+const compData = {
+  'amd-ddr4':{
+    label:'AMD Ryzen 5000 + DDR4',
+    case:[
+      {name:'NZXT H510 Flow',color:'black',spec:'mATX Mid-Tower · Steel + Mesh front',price:75},
+      {name:'Fractal Design Pop Air',color:'white',spec:'mATX Mid-Tower · White mesh front',price:79},
+    ],
+    motherboard:[
+      {name:'MSI PRO B550M-P GEN3',color:'black',spec:'mATX · AM4 · PCIe 4.0',price:85},
+      {name:'ASUS PRIME B550M-A',color:'white',spec:'mATX · AM4 · USB-C · white accents',price:90},
+    ],
+    cpu:[
+      {name:'AMD Ryzen 5 5600',color:'black',spec:'6-core 3.5GHz · 65W · AM4',price:75},
+      {name:'AMD Ryzen 7 5700X',color:'black',spec:'8-core 3.4GHz · 65W · AM4',price:130},
+    ],
+    ram:[
+      {name:'Kingston Fury Beast 16GB DDR4',color:'black',spec:'3200MHz CL16 · Black heatspreader',price:35},
+      {name:'Corsair Vengeance 16GB DDR4',color:'white',spec:'3200MHz CL16 · White heatspreader',price:38},
+    ],
+    ssd:[
+      {name:'WD Black SN770 500GB',color:'black',spec:'NVMe PCIe 4.0 · 5100MB/s read',price:45},
+      {name:'Samsung 970 EVO Plus 1TB',color:'black',spec:'NVMe PCIe 3.0 · 3500MB/s read',price:70},
+    ],
+    hdd:[
+      {name:'No HDD (SSD only)',color:'black',spec:'Lean build · more airflow',price:0},
+      {name:'Seagate Barracuda 2TB',color:'black',spec:'7200RPM · SATA III · mass storage',price:50},
+    ],
+    'cpu cooler':[
+      {name:'be quiet! Pure Rock 2',color:'black',spec:'120mm · 150W TDP · very quiet',price:35},
+      {name:'Arctic Freezer 34 eSports',color:'white',spec:'120mm · 200W TDP · white shroud',price:30},
+    ],
+    gpu:[
+      {name:'RX 6650 XT 8GB',color:'black',spec:'1080p–1440p · RDNA2 · great value',price:155},
+      {name:'RTX 3060 12GB',color:'black',spec:'1080p–1440p · Ampere · DLSS',price:185},
+      {name:'RTX 3070 8GB',color:'black',spec:'1440p High refresh · Ampere',price:265},
+    ],
+    fans:[
+      {name:'3× Arctic P120 Black',color:'black',spec:'120mm · 2000RPM · silent running',price:20},
+      {name:'3× Corsair LL120 White ARGB',color:'white',spec:'120mm · ARGB rainbow · bright',price:45},
+    ],
+  },
+  'intel-ddr4':{
+    label:'Intel 12th Gen + DDR4',
+    case:[
+      {name:'NZXT H510 Flow',color:'black',spec:'ATX Mid-Tower · Steel + Mesh',price:75},
+      {name:'Corsair 4000D Airflow',color:'white',spec:'ATX Mid-Tower · Tempered glass · white',price:85},
+    ],
+    motherboard:[
+      {name:'MSI PRO B660M-A DDR4',color:'black',spec:'mATX · LGA1700 · DDR4 support',price:110},
+      {name:'ASUS PRIME B660M-A',color:'white',spec:'mATX · LGA1700 · USB-C · white',price:115},
+    ],
+    cpu:[
+      {name:'Intel Core i5-12400F',color:'black',spec:'6-core 2.5GHz · 65W · LGA1700',price:130},
+      {name:'Intel Core i7-12700F',color:'black',spec:'12-core 2.1GHz · 65W · LGA1700',price:200},
+    ],
+    ram:[
+      {name:'Kingston Fury Beast 16GB DDR4',color:'black',spec:'3200MHz CL16 · Black',price:35},
+      {name:'Corsair Vengeance 16GB DDR4',color:'white',spec:'3200MHz CL16 · White',price:38},
+    ],
+    ssd:[
+      {name:'WD Black SN770 500GB',color:'black',spec:'NVMe PCIe 4.0 · 5100MB/s',price:45},
+      {name:'Samsung 970 EVO Plus 1TB',color:'black',spec:'NVMe PCIe 3.0 · 3500MB/s',price:70},
+    ],
+    hdd:[
+      {name:'No HDD (SSD only)',color:'black',spec:'Lean build · more airflow',price:0},
+      {name:'Seagate Barracuda 2TB',color:'black',spec:'7200RPM · SATA III',price:50},
+    ],
+    'cpu cooler':[
+      {name:'be quiet! Pure Rock 2',color:'black',spec:'120mm · 150W TDP · quiet',price:35},
+      {name:'Arctic Freezer 34 eSports',color:'white',spec:'120mm · 200W TDP · white',price:30},
+    ],
+    gpu:[
+      {name:'RX 6650 XT 8GB',color:'black',spec:'1080p–1440p · RDNA2',price:155},
+      {name:'RTX 3060 12GB',color:'black',spec:'1080p–1440p · Ampere · DLSS',price:185},
+      {name:'RTX 3070 8GB',color:'black',spec:'1440p High · Ampere',price:265},
+    ],
+    fans:[
+      {name:'3× Arctic P120 Black',color:'black',spec:'120mm · 2000RPM · silent',price:20},
+      {name:'3× Corsair LL120 White ARGB',color:'white',spec:'120mm · ARGB · bright',price:45},
+    ],
+  },
+  'amd-ddr5':{
+    label:'AMD Ryzen 7000 + DDR5',
+    case:[
+      {name:'Lian Li O11 Dynamic EVO',color:'black',spec:'ATX Mid-Tower · Dual-chamber · premium',price:120},
+      {name:'Fractal Design North',color:'white',spec:'ATX Mid-Tower · Wood + white mesh',price:110},
+    ],
+    motherboard:[
+      {name:'MSI MAG X670E Tomahawk',color:'black',spec:'ATX · AM5 · DDR5 · PCIe 5.0',price:230},
+      {name:'ASUS ROG STRIX B650-A',color:'white',spec:'ATX · AM5 · DDR5 · WiFi · white',price:250},
+    ],
+    cpu:[
+      {name:'AMD Ryzen 5 7600X',color:'black',spec:'6-core 4.7GHz · 105W · AM5',price:220},
+      {name:'AMD Ryzen 7 7700X',color:'black',spec:'8-core 4.5GHz · 105W · AM5',price:310},
+    ],
+    ram:[
+      {name:'Kingston Fury Beast 16GB DDR5',color:'black',spec:'5200MHz CL40 · Black',price:70},
+      {name:'Corsair Dominator 16GB DDR5',color:'white',spec:'5600MHz CL36 · White',price:95},
+    ],
+    ssd:[
+      {name:'WD Black SN850X 1TB',color:'black',spec:'NVMe PCIe 5.0 · 7300MB/s',price:110},
+      {name:'Samsung 990 Pro 1TB',color:'black',spec:'NVMe PCIe 4.0 · 7450MB/s',price:100},
+    ],
+    hdd:[
+      {name:'No HDD (SSD only)',color:'black',spec:'Lean build · premium feel',price:0},
+      {name:'Seagate Barracuda 2TB',color:'black',spec:'7200RPM · SATA III',price:50},
+    ],
+    'cpu cooler':[
+      {name:'be quiet! Dark Rock 4',color:'black',spec:'135mm · 250W TDP · near-silent',price:60},
+      {name:'Noctua NH-D15 Chromax White',color:'white',spec:'140mm · 250W TDP · all-white',price:85},
+    ],
+    gpu:[
+      {name:'RX 7700 XT 12GB',color:'black',spec:'1440p · RDNA3 · great value',price:280},
+      {name:'RTX 4070 12GB',color:'black',spec:'1440p · Ada Lovelace · DLSS 3',price:480},
+    ],
+    fans:[
+      {name:'3× Arctic P120 Black',color:'black',spec:'120mm · 2000RPM · quiet',price:20},
+      {name:'3× Lian Li Uni Fan SL120',color:'white',spec:'120mm · ARGB daisy-chain · white',price:75},
+    ],
+  },
+  'intel-ddr5':{
+    label:'Intel 13th Gen + DDR5',
+    case:[
+      {name:'Lian Li O11 Dynamic EVO',color:'black',spec:'ATX Mid-Tower · Dual-chamber',price:120},
+      {name:'Corsair 5000D Airflow',color:'white',spec:'ATX Mid-Tower · High airflow · white',price:130},
+    ],
+    motherboard:[
+      {name:'MSI MAG Z790 Tomahawk',color:'black',spec:'ATX · LGA1700 · DDR5 · PCIe 5.0',price:270},
+      {name:'ASUS ROG STRIX Z790-A',color:'white',spec:'ATX · LGA1700 · DDR5 · WiFi · white',price:310},
+    ],
+    cpu:[
+      {name:'Intel Core i5-13600KF',color:'black',spec:'14-core 3.5GHz · 125W · LGA1700',price:270},
+      {name:'Intel Core i7-13700KF',color:'black',spec:'16-core 3.4GHz · 125W · LGA1700',price:380},
+    ],
+    ram:[
+      {name:'Kingston Fury Beast 16GB DDR5',color:'black',spec:'5200MHz CL40 · Black',price:70},
+      {name:'Corsair Dominator 16GB DDR5',color:'white',spec:'5600MHz CL36 · White',price:95},
+    ],
+    ssd:[
+      {name:'WD Black SN850X 1TB',color:'black',spec:'NVMe PCIe 5.0 · 7300MB/s',price:110},
+      {name:'Samsung 990 Pro 1TB',color:'black',spec:'NVMe PCIe 4.0 · 7450MB/s',price:100},
+    ],
+    hdd:[
+      {name:'No HDD (SSD only)',color:'black',spec:'Clean build',price:0},
+      {name:'Seagate Barracuda 2TB',color:'black',spec:'7200RPM · SATA III',price:50},
+    ],
+    'cpu cooler':[
+      {name:'be quiet! Dark Rock 4',color:'black',spec:'135mm · 250W TDP',price:60},
+      {name:'Noctua NH-D15 Chromax White',color:'white',spec:'140mm · 250W TDP · all-white',price:90},
+    ],
+    gpu:[
+      {name:'RX 7700 XT 12GB',color:'black',spec:'1440p · RDNA3',price:280},
+      {name:'RTX 4070 12GB',color:'black',spec:'1440p · Ada Lovelace · DLSS 3',price:480},
+    ],
+    fans:[
+      {name:'3× Arctic P120 Black',color:'black',spec:'120mm · 2000RPM · quiet',price:20},
+      {name:'3× Lian Li Uni Fan SL120',color:'white',spec:'120mm · ARGB daisy-chain',price:75},
+    ],
+  }
+};
+
+let cfg = { platform:null, step:0, sel:{} };
+
+function openConfigurator(type) {
+  cfg = { platform:null, step:0, sel:{}, type };
+  const t = {gamer:'Gamer Custom Build',workstation:'Workstation Custom Build',hybrid:'Hybrid Custom Build'};
+  const s = {gamer:'Pick your platform then configure each component.',workstation:'Pick your platform then configure your workstation.',hybrid:'Pick your platform then build your hybrid machine.'};
+  document.getElementById('configTitle').textContent = t[type];
+  document.getElementById('configSubtitle').textContent = s[type];
+  showCfgStep('platform');
+  buildCfgProgress(-1);
+  document.getElementById('configModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeConfig() {
+  document.getElementById('configModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('configModal').addEventListener('click', e => { if(e.target===e.currentTarget) closeConfig(); });
+
+function showCfgStep(which) {
+  ['platform','comp','summary'].forEach(s => document.getElementById('cstep-'+s).classList.remove('active'));
+  document.getElementById('cstep-'+which).classList.add('active');
+}
+
+function buildCfgProgress(activeIdx) {
+  document.getElementById('cfgProgress').innerHTML =
+    STEPS.map((_,i)=>`<div class="config-progress-dot ${i<=activeIdx?'done':''}"></div>`).join('');
+}
+
+function selectPlatform(p, el) {
+  cfg.platform = p;
+  document.querySelectorAll('.platform-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  setTimeout(()=>{ cfg.step=0; goToComp(0); }, 280);
+}
+
+function goToComp(idx) {
+  cfg.step = idx;
+  buildCfgProgress(idx);
+  const comp = STEPS[idx];
+  const opts = compData[cfg.platform][comp];
+  const selIdx = cfg.sel[comp];
+  document.getElementById('compContent').innerHTML = `
+    <div class="comp-step-header">
+      <div class="comp-step-num">${idx+1}</div>
+      <div class="comp-step-lbl">${comp.toUpperCase()}</div>
+    </div>
+    <div class="comp-options">
+      ${opts.map((o,i)=>`
+        <div class="comp-option ${selIdx===i?'sel':''}" onclick="pickComp('${comp}',${i},this)">
+          <div class="co-dot ${o.color}"></div>
+          <div class="co-info">
+            <div class="co-name">${o.name}</div>
+            <div class="co-spec">${o.spec} · ${o.color==='white'?'⬜ White':'⬛ Black'}</div>
+          </div>
+          <div class="co-price">${o.price===0?'Free':'£'+o.price}</div>
+        </div>`).join('')}
+    </div>`;
+  showCfgStep('comp');
+}
+
+function pickComp(comp, idx, el) {
+  cfg.sel[comp] = idx;
+  el.closest('.comp-options').querySelectorAll('.comp-option').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function configNext() {
+  const comp = STEPS[cfg.step];
+  if (cfg.sel[comp] === undefined) { alert('Please pick an option to continue.'); return; }
+  if (cfg.step < STEPS.length - 1) { goToComp(cfg.step + 1); }
+  else { showSummary(); }
+}
+
+function configBack() {
+  if (cfg.step === 0) { showCfgStep('platform'); buildCfgProgress(-1); }
+  else { goToComp(cfg.step - 1); }
+}
+
+function showSummary() {
+  const plat = compData[cfg.platform];
+  let total = LABOUR;
+  let rows = '';
+  STEPS.forEach(comp => {
+    const idx = cfg.sel[comp];
+    if (idx !== undefined) {
+      const o = plat[comp][idx];
+      total += o.price;
+      rows += `<div class="config-summary-row"><span>${comp}</span><span>${o.name} ${o.color==='white'?'⬜':'⬛'} ${o.price===0?'(Free)':'· £'+o.price}</span></div>`;
+    }
+  });
+  rows += `<div class="config-summary-row"><span>Windows 11 Home</span><span>✅ Included</span></div>`;
+  rows += `<div class="config-summary-row"><span>Build, packaging & delivery</span><span>📦 Included</span></div>`;
+  document.getElementById('summaryRows').innerHTML = rows;
+  document.getElementById('summaryTotal').textContent = '£' + total.toLocaleString();
+  showCfgStep('summary');
+}
+
+</body>
+</html>
